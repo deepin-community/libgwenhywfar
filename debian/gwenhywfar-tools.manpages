@@ -1,0 +1,5 @@
+debian/man/gct-tool.1
+debian/man/mklistdoc.1
+debian/man/typemaker.1
+debian/man/typemaker2.1
+debian/man/xmlmerge.1

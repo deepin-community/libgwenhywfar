@@ -1,0 +1,514 @@
+------------------------------------------------------------------
+2022-02-03 21:23:35 +0100 Martin Preuss
+Fox16 dialog: Improved handling of setIntProperty() in lists.
+
+------------------------------------------------------------------
+2022-02-03 21:23:00 +0100 Martin Preuss
+GWEN_Dialog: Fixed a bug.
+
+------------------------------------------------------------------
+2022-02-03 00:05:42 +0100 Martin Preuss
+Incremented version. Change setup of GWENHYWFAR_VERSION_RELEASE_STRING.
+Remove the ".r" part from the version string in case of GIT versions.
+Makes it easier to specify minimum versions for modules looked up by
+pkg-config.
+
+------------------------------------------------------------------
+2022-02-03 00:04:10 +0100 Martin Preuss
+dialog: Added convenience functions concerning lists often used in dialogs.
+- GWEN_Dialog_ListWriteColumnSettings()
+- GWEN_Dialog_ListReadColumnSettings()
+- GWEN_Dialog_ListGetFirstColumnData()
+- GWEN_Dialog_ListGetItemMatchingFirstColumn()
+
+------------------------------------------------------------------
+2022-01-13 22:35:49 +0100 Martin Preuss
+Merge branch 'rel-5.8.2'
+
+------------------------------------------------------------------
+2022-01-13 22:14:01 +0100 Martin Preuss
+Prepared release 5.8.2
+
+------------------------------------------------------------------
+2021-12-09 17:57:22 +0100 Martin Preuss
+GUI: Fixed a bug in GWEN_Dialog_EmitSignalToAll2().
+Only report that a signal has been handled if any dialog reported it!
+Otherwise the e.g. key events are ignored by widgets which leads to them
+not being able to handle keypress and keyrelease events properly.
+
+------------------------------------------------------------------
+2021-12-31 01:04:31 +0100 Martin Preuss
+Test_framework: Allow for use in C++.
+
+------------------------------------------------------------------
+2021-12-30 19:50:03 +0100 Thomas Baumgart
+Add the i18n_libs where needed
+This fixes the build problems encountered on the KDE CI system
+
+------------------------------------------------------------------
+2021-12-30 12:06:26 +0100 Martin Preuss
+Merge branch 'rel-5.8.1'
+
+------------------------------------------------------------------
+2021-12-30 12:00:39 +0100 Martin Preuss
+Prepared release 5.8.1 (special release for KMyMoney).
+
+------------------------------------------------------------------
+2021-12-29 18:18:09 +0100 Martin Preuss
+Updated default GUIs to use (qt4 and gtk2 are outdated).
+
+------------------------------------------------------------------
+2021-12-29 18:03:13 +0100 Martin Preuss
+Add @i18n_libs@ when building cttest in gcttool.
+
+------------------------------------------------------------------
+2021-12-29 18:02:35 +0100 Martin Preuss
+Use macro AM_GNU_GETEXT.
+
+------------------------------------------------------------------
+2021-12-15 23:20:29 +0100 Martin Preuss
+Prepared release 5.8.0
+
+------------------------------------------------------------------
+2021-12-15 22:03:45 +0100 Martin Preuss
+Prepared release 5.8.0.
+
+------------------------------------------------------------------
+2021-12-15 21:43:28 +0100 Martin Preuss
+Increased verbosity.
+
+------------------------------------------------------------------
+2021-12-15 21:42:53 +0100 Martin Preuss
+typemaker2: Fixed a bug (not setting pointers to NULL after free).
+
+------------------------------------------------------------------
+2021-12-02 13:39:04 +0100 Martin Preuss
+GUI: Add dialog property GWEN_DialogProperty_WindowId.
+This is a special property for X11 environments only, it returns the
+X11 window handle id (not to be used in normal apps, but e.g. needed when
+embedding a libvlc media player).
+
+Implemented this property in FOX16 gui.
+
+------------------------------------------------------------------
+2021-12-02 13:37:03 +0100 Martin Preuss
+GUI: Fixed missing return value.
+
+------------------------------------------------------------------
+2021-12-02 13:25:27 +0100 Martin Preuss
+GUI: Implement "GWEN_WIDGET_FLAGS_FRAME_*" flags for FOX16 frontend.
+
+------------------------------------------------------------------
+2021-12-02 13:25:02 +0100 Martin Preuss
+GUI: Read widget flags "GWEN_WIDGET_FLAGS_FRAME_*".
+
+------------------------------------------------------------------
+2021-12-02 13:18:48 +0100 Martin Preuss
+GUI: Added second dialog callback to allow for 2 arguments.
+This is needed to convey keypress/keyrelease events. If a handler for the
+new callback mechanism is set it will be used, otherwise the old type1
+handler will be called and the arguments ignored.
+
+Added functions:
+- GWEN_Dialog_EmitSignal2()
+- GWEN_Dialog_EmitSignalToAll2()
+- GWEN_Dialog_SetSignalHandler2()
+
+Added widget flags (hints only):
+- GWEN_WIDGET_FLAGS_FRAME_SUNKEN
+- GWEN_WIDGET_FLAGS_FRAME_RAISED
+- GWEN_WIDGET_FLAGS_FRAME_THICK
+- GWEN_WIDGET_FLAGS_FRAME_GROOVE
+
+Added dialog events:
+- GWEN_DialogEvent_TypeKeyPressed
+- GWEN_DialogEvent_TypeKeyReleased
+
+------------------------------------------------------------------
+2021-11-25 00:46:30 +0100 Martin Preuss
+Build: Changed order of libs.
+Follow "gwenhywfar-5.7.4-typemaker2-Makefiles.patch"
+from gnucash-on-windows.
+
+------------------------------------------------------------------
+2021-11-18 20:52:28 +0100 Christian Stimming
+fix out-of-tree build
+
+------------------------------------------------------------------
+2021-11-14 14:20:54 +0100 Martin Preuss
+Released 5.7.4.
+
+------------------------------------------------------------------
+2021-11-13 19:11:26 +0100 Martin Preuss
+Prepared release 5.7.4.
+
+------------------------------------------------------------------
+2021-10-24 21:02:35 +0200 Martin Preuss
+Typemaker2: Fixed a bug.
+
+------------------------------------------------------------------
+2021-10-24 21:02:20 +0200 Martin Preuss
+Typemaker2: Fixed *_copy() function.
+
+------------------------------------------------------------------
+2021-10-23 18:25:10 +0200 Martin Preuss
+Increased build version.
+
+------------------------------------------------------------------
+2021-10-23 18:25:00 +0200 Martin Preuss
+Fixed a typo.
+
+------------------------------------------------------------------
+2021-10-23 18:24:54 +0200 Martin Preuss
+Added test for environment variable.
+
+------------------------------------------------------------------
+2021-10-23 16:09:12 +0200 Martin Preuss
+Minor code simplifications.
+
+------------------------------------------------------------------
+2021-10-16 18:08:04 +0200 Martin Preuss
+CSV: Cleanup, allow for subfields.
+The CSV importer can now also handle subfields and parse them accordingly.
+This is usefull if a CSV field contains more structured data.
+
+In such a case the column spec in the configuratin file must contain a
+DB_Group instead of a variable like in this example:
+
+  columns {
+    1="date"
+    2="valutadate"
+    3="type"
+    4="num"
+    5 {
+      delimiter="/"
+      1="wkn"
+      2="isin"
+    }
+    6="totalAmountValue"
+    7="totalAmountCurrency"
+    8="priceValue"
+    9="priceCurrency"
+  } # columns
+
+Here the 5th field contains "WKN" and "ISIN" which are separated by "/".
+
+------------------------------------------------------------------
+2021-10-07 20:17:50 +0200 Martin Preuss
+Removed unneeded file.
+Moved to "c" folder and split into multiple files.
+
+------------------------------------------------------------------
+2021-10-07 20:13:38 +0200 Martin Preuss
+Merge branch 'mp-202110-typemaker2_cleanup'
+
+------------------------------------------------------------------
+2021-10-07 20:07:05 +0200 Martin Preuss
+typemaker2: Some ideas for future iterations...
+
+------------------------------------------------------------------
+2021-10-07 20:06:50 +0200 Martin Preuss
+typemaker2: More cleanup. Finished for now.
+
+------------------------------------------------------------------
+2021-10-06 21:16:38 +0200 Martin Preuss
+typemaker2: Fixed some newly introduced bugs.
+GWEN_FORMAT helped very much with this...
+
+------------------------------------------------------------------
+2021-10-06 21:16:00 +0200 Martin Preuss
+base: Add format attribute to GWEN_Buffer_AppendArgs().
+This allows for the compiler to check arguments for this function.
+
+------------------------------------------------------------------
+2021-10-06 00:30:54 +0200 Martin Preuss
+typemaker2: More cleanup (TM2C_BuildCopy).
+
+------------------------------------------------------------------
+2021-10-05 00:49:08 +0200 Martin Preuss
+typemaker2: Minor beautification.
+
+------------------------------------------------------------------
+2021-10-05 00:48:53 +0200 Martin Preuss
+typemaker2: Cleanup dup code.
+
+------------------------------------------------------------------
+2021-10-04 23:43:50 +0200 Martin Preuss
+typemaker2: More cleanup.
+
+------------------------------------------------------------------
+2021-10-03 23:34:30 +0200 Martin Preuss
+typemaker2: Started cleanup.
+typemaker2 is an essential tool for AqBanking and AqFinance, so it has to be
+easily maintainable.
+
+------------------------------------------------------------------
+2021-10-01 21:50:10 +0200 Martin Preuss
+Revert "gwenbuild: Remove duplicate code (there already is GWB_Parser_ReadXmlDataIntoStringList)."
+This reverts commit 26e22240902bce6f0b81c5779466b017bfbe79c0.
+
+------------------------------------------------------------------
+2021-10-01 21:43:32 +0200 Martin Preuss
+gwenbuild: Remove duplicate code (there already is GWB_Parser_ReadXmlDataIntoStringList).
+
+------------------------------------------------------------------
+2021-10-01 21:42:26 +0200 Martin Preuss
+gwenbuild: Fixed CLI args. "-s" now directly takes the source folder.
+
+------------------------------------------------------------------
+2021-09-30 23:52:12 +0200 Martin Preuss
+gwenbuild: Started added handling of language catalogs.
+These changes will make it easier to add new types later.
+Basically we now create a GWB_TARGET for every language catalog and make it
+install to the appropriate folder below $(localedir).
+- added file element <i18n> to be used for language catalogs
+- added target type "GWBUILD_TargetType_I18nCatalog"
+- added member "installName" to GWB_FILE (alternative filename for installation)
+- added member "installName" to GWB_TARGET (same as above)
+- added builder "msgfmt"
+- check for optional tool "msgfmt", skip i18n handling when missing
+- added defaultTypeName and defaultBuilder to GWB_Parser_ParseSourcesOrHeaders()
+
+------------------------------------------------------------------
+2021-09-30 20:33:55 +0200 Martin Preuss
+gwenbuild: Updated README.
+
+------------------------------------------------------------------
+2021-09-30 16:33:46 +0200 Martin Preuss
+gwenbuild: Cleanup GWB_Utils_VersionStringToDb().
+
+------------------------------------------------------------------
+2021-09-30 16:09:46 +0200 Martin Preuss
+gwenbuild: Define filenames, no longer use them directly.
+This allows for centrally changing of filenames.
+
+------------------------------------------------------------------
+2021-09-30 14:12:06 +0200 Martin Preuss
+gwenbuild: Remove debug function.
+
+------------------------------------------------------------------
+2021-09-30 14:11:11 +0200 Martin Preuss
+gwenbuild: Improved depfile handling. Fixed pointers.
+- moved code into its own file.
+- simplified reading a gcc depfile by cleaning it up first.
+- set pointers to NULL after freeing
+
+------------------------------------------------------------------
+2021-09-30 11:49:34 +0200 Martin Preuss
+Removed no longer needed builder defs (are now in posix and windows folders).
+
+------------------------------------------------------------------
+2021-09-30 11:40:15 +0200 Martin Preuss
+gwenbuild: Cleanup function _addCommands().
+
+------------------------------------------------------------------
+2021-09-30 11:32:55 +0200 Martin Preuss
+gwenbuild: Added more "static" decls, removed superflous def.
+
+------------------------------------------------------------------
+2021-09-30 11:30:41 +0200 Martin Preuss
+gwenbuild: Cleanup _setupOutFiles().
+
+------------------------------------------------------------------
+2021-09-30 11:15:54 +0200 Martin Preuss
+gwenbuild: Added some "static" decls.
+
+------------------------------------------------------------------
+2021-09-30 11:11:13 +0200 Martin Preuss
+gwenbuild: Cleanup function GWB_ParseBuildFiles().
+
+------------------------------------------------------------------
+2021-09-30 01:04:57 +0200 Martin Preuss
+Gwenbuild: Cleanup function _parseVersions().
+Improves readability.
+
+------------------------------------------------------------------
+2021-09-30 01:04:26 +0200 Martin Preuss
+Changed mailinglist project name for aqbanking-devel in README.
+
+------------------------------------------------------------------
+2021-09-30 01:02:57 +0200 Martin Preuss
+Gwenbuild: Fixed some typos.
+
+------------------------------------------------------------------
+2021-09-30 00:17:15 +0200 Martin Preuss
+Cleanup function _parseWriteFile().
+Reuse code, split big function into smaller ones.
+
+------------------------------------------------------------------
+2021-09-29 23:50:25 +0200 Martin Preuss
+Cleanup function GWB_Parser_ReadBuildFile().
+Now function should be longer than a screen page ;-)
+
+------------------------------------------------------------------
+2021-09-29 23:14:28 +0200 Christian Stimming
+Windows compatibility: Ignore signal functions and symbols on windows
+
+------------------------------------------------------------------
+2021-09-29 23:14:03 +0200 Christian Stimming
+Windows compatibility: Handle symlinks only on non-windows
+
+------------------------------------------------------------------
+2021-09-29 23:13:26 +0200 Christian Stimming
+Windows compatibility: Use GWEN_Text_strndup wrapper
+
+------------------------------------------------------------------
+2021-09-29 23:13:07 +0200 Christian Stimming
+Windows compatibility: Use stat instead of lstat on windows
+
+------------------------------------------------------------------
+2021-09-25 18:24:01 +0200 Martin Preuss
+GwenBuild: Build "tm2builder" targets first if none specified.
+Source files generated from typemaker2 type definition files in most cases
+need to be generated before anything else. Therefore we prioritize those
+builders if no specific builder is requested on the command line.
+
+If a specific builder is given on the command line then only builders of that
+given type are run, so in that case the behaviour is not changed.
+
+------------------------------------------------------------------
+2021-09-25 18:20:39 +0200 Martin Preuss
+Gwenbuild: Added some template/example files.
+- convlib.tmpl: example for building convenience library targets
+- module.tmpl: example for building plugin modules
+
+------------------------------------------------------------------
+2021-09-25 18:19:03 +0200 Martin Preuss
+Gwenbuild: Add var GWBUILD_SYSTEMTYPE(posix, windows).
+This can be used to determine the base type of the target operating system
+("windows" or "posix").
+
+------------------------------------------------------------------
+2021-09-25 14:51:58 +0200 Martin Preuss
+Released 5.7.3
+
+------------------------------------------------------------------
+2021-09-25 14:47:07 +0200 Martin Preuss
+Prepared release 5.7.3.
+
+------------------------------------------------------------------
+2021-09-25 00:04:57 +0200 Martin Preuss
+gwenbuild: Decreased verbosity.
+
+------------------------------------------------------------------
+2021-09-24 23:59:30 +0200 Martin Preuss
+gwenbuild: Improved version handling.
+- add "version" attribute to "<project>" element for simplification
+- improved autotools compatibility
+  - create var and define for "PACKAGE"
+  - create var and define for "VERSION"
+
+------------------------------------------------------------------
+2021-09-24 22:32:23 +0200 Martin Preuss
+Incremented version number.
+
+------------------------------------------------------------------
+2021-09-24 22:32:12 +0200 Martin Preuss
+gwenbuild: Setup context variables in topbuilddir.
+
+------------------------------------------------------------------
+2021-09-24 15:19:52 +0200 Martin Preuss
+gwenbuild: On error wait for running jobs to finish instead of killing them.
+If a job error occurs (e.g.compilation error) let the other jobs still
+finish instead of killing them. That way at least those jobs can work in
+an orderly fashion.
+
+Jobs are now only killed if they still running after waiting for about 10s
+to finish.
+
+------------------------------------------------------------------
+2021-09-24 15:03:06 +0200 Martin Preuss
+Fixed bug in GWB_Parser_ReplaceVarsBetweenAtSigns().
+Now also accepts valid use of AT sign (e.g. email adresses, doxygen tags).
+
+------------------------------------------------------------------
+2021-09-24 15:02:03 +0200 Martin Preuss
+Decreased verbosity.
+
+------------------------------------------------------------------
+2021-09-23 23:46:12 +0200 Martin Preuss
+Don't build gwenbuild on Windows.
+
+------------------------------------------------------------------
+2021-09-21 15:06:34 +0200 Micha Lenk
+i18n: Update German translation
+
+------------------------------------------------------------------
+2021-09-21 14:54:51 +0200 Micha Lenk
+Several spelling fixes
+
+------------------------------------------------------------------
+2021-09-18 17:43:47 +0200 Martin Preuss
+Release 5.7.2.
+
+------------------------------------------------------------------
+2021-09-18 17:13:54 +0200 Martin Preuss
+Prepared release 5.7.2.
+
+------------------------------------------------------------------
+2021-09-18 17:12:37 +0200 Martin Preuss
+CryptToken: Fixed a problem (callers rely on the return value of GWEN_Crypt_Token_BeginEnterPin !=0).
+
+------------------------------------------------------------------
+2021-09-11 19:23:37 +0200 Martin Preuss
+Don't use deprecated functions.
+
+------------------------------------------------------------------
+2021-09-11 19:23:16 +0200 Martin Preuss
+Marked GWEN_Gui_ShowBox() and GWEN_Gui_HideBox() deprecated.
+
+------------------------------------------------------------------
+2021-09-11 19:22:48 +0200 Martin Preuss
+Renamed def "DEPRECATED" to "GWEN_DEPRECATED".
+
+------------------------------------------------------------------
+2021-09-11 19:00:13 +0200 Martin Preuss
+CryptToken: No longer use GWEN_Gui_ShowBox() and GWEN_Gui_HideBox().
+Those GUI functions need the GUI to run in the background which doesn't work
+well in most apps where the program code runs inside the same thread as the
+GUI code.
+Therefore sometimes dialog boxes aren't correctly refreshed or shown on
+some platforms.
+
+A message in the log window seems to be the best and simplest solution to
+the surprising complexity of the problem.
+
+------------------------------------------------------------------
+2021-09-11 18:14:25 +0200 Martin Preuss
+ctplugin: Simplified code (esp. use fn GWEN_Gui_ProgressLog2).
+
+------------------------------------------------------------------
+2021-09-10 16:32:12 +0200 Martin Preuss
+Released 5.7.1
+
+------------------------------------------------------------------
+2021-09-10 14:10:13 +0200 Martin Preuss
+Prepared release 5.7.1.
+
+------------------------------------------------------------------
+2021-09-05 19:33:35 +0200 Martin Preuss
+GUI: Remove bad pin also from password cache.
+
+------------------------------------------------------------------
+2021-09-02 16:32:44 +0200 Martin Preuss
+TODO: Added entry.
+
+------------------------------------------------------------------
+2021-09-02 16:32:32 +0200 Martin Preuss
+tm2: Add types uint16_t and uint16_t_array.
+
+------------------------------------------------------------------
+2020-09-10 01:14:16 +0200 Ralf Habacker
+On Mingw use '/' as dir separator to avoid compile errors
+This fixes the following error:
+   transaction.c:12:10: fatal error: .\..._p.h: No such file or directory
+
+------------------------------------------------------------------
+2021-04-17 18:46:26 +0200 Ralf Habacker
+Fix finding of ca-bundle.crt on Windows
+In case of not using system certificates the bundled certificate should be
+searched and added.
+
+------------------------------------------------------------------
+2021-06-25 02:15:51 +0200 Martin Preuss
+gwenbuild: Add help entry "-d".

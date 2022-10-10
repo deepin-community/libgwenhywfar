@@ -1,0 +1,46 @@
+#!/usr/bin/make -f
+
+ifneq (,$(findstring nodocs,$(DEB_BUILD_OPTIONS)))
+	DEB_BUILD_DOCS=0
+else
+	DEB_BUILD_DOCS=1
+endif
+
+# Let dpkg-gensymbols fail if symbols file updates are needed
+DPKG_GENSYMBOLS_CHECK_LEVEL ?= 4
+export DPKG_GENSYMBOLS_CHECK_LEVEL
+
+include /usr/share/dpkg/architecture.mk
+ifneq ($(DEB_BUILD_ARCH),$(DEB_HOST_ARCH))
+CROSS_COMPILE = $(DEB_HOST_GNU_TYPE)-
+endif
+export QT_SELECT=qt5
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		--with-guis="fox16 qt5 gtk3" \
+		--with-qt5-qmake=$(CROSS_COMPILE)qmake \
+		--enable-system-certs \
+		--with-openssl-libs=/usr/lib/$(DEB_TARGET_MULTIARCH) \
+		--with-libxml2-code=yes \
+		--disable-network-checks
+
+override_dh_auto_build:
+	dh_auto_build
+	$(MAKE) -C debian/man
+
+	# This is not an arch-indep target, as some built binaries are required to build the srcdoc
+	if [ "$(DEB_BUILD_DOCS)" = "1" ]; then \
+		$(MAKE) srcdoc; \
+		rm -v apidoc/jquery.js; \
+	else \
+		mkdir apidoc; \
+	fi
+
+override_dh_makeshlibs:
+	dh_makeshlibs -Xgwenhywfar/plugins
+
+%:
+	dh $@
+
+.PHONY:	override_dh_auto_configure override_dh_auto_build

@@ -1,0 +1,10 @@
+Document: libgwenhywfar-doc
+Title: Gwenhywfar API Documentation
+Author: Martin Preuss <martin@aquamaniac.de>
+Abstract: This manual describes what Gwenhywfar is and how it can be used for
+ programming platform independent applications.
+Section: Programming/C
+
+Format: HTML
+Index: /usr/share/doc/libgwenhywfar-doc/apidoc/index.html
+Files: /usr/share/doc/libgwenhywfar-doc/apidoc/*.html

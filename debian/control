@@ -1,0 +1,170 @@
+Source: libgwenhywfar
+Priority: optional
+Section: libs
+Maintainer: Micha Lenk <micha@debian.org>
+Uploaders: Henning Glawe <glaweh@debian.org>
+Build-Depends: debhelper-compat (= 13),
+ libgcrypt20-dev, libgpg-error-dev,
+ libgnutls28-dev,
+ libxml2-dev,
+ libssl-dev,
+ libfox-1.6-dev,
+ qtbase5-dev,
+ libgtk-3-dev,
+ doxygen,
+ asciidoctor,
+ pkg-config
+Standards-Version: 4.6.0
+Vcs-Browser: https://salsa.debian.org/aqbanking-team/pkg-libgwenhywfar
+Vcs-Git: https://salsa.debian.org/aqbanking-team/pkg-libgwenhywfar.git
+Homepage: https://www.aquamaniac.de/rdm/projects/gwenhywfar
+
+Package: libgwenhywfar-core-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: libgwenhywfar79 (= ${binary:Version}), ${misc:Depends}
+Suggests: libgwenhywfar-doc
+Description: OS abstraction layer (core development files)
+ Gwenhywfar allows porting of your software to different operating
+ systems like Linux, *BSD, Windows etc. It also provides some often
+ needed modules such as configuration file handling, simple XML file
+ parsing, IPC etc.
+ .
+ This package contains the core development files without GUI components.
+
+Package: libgwengui-fox16-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: libgwenhywfar-core-dev (= ${binary:Version}),
+  libgwengui-fox16-79 (= ${binary:Version}), ${misc:Depends}
+Description: Gwenhywfar GUI implementation for the FOX Toolkit (development files)
+ Gwenhywfar allows porting of your software to different operating
+ systems like Linux, *BSD, Windows etc. It also provides some often
+ needed modules such as configuration file handling, simple XML file
+ parsing, IPC etc.
+ .
+ This package contains development files of the Gwenhywfar GUI implementation
+ for the FOX Toolkit.
+
+Package: libgwengui-gtk3-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: libgwenhywfar-core-dev (= ${binary:Version}),
+  libgwengui-gtk3-79 (= ${binary:Version}), ${misc:Depends}
+Description: Gwenhywfar GUI implementation for GTK3 (development files)
+ Gwenhywfar allows porting of your software to different operating
+ systems like Linux, *BSD, Windows etc. It also provides some often
+ needed modules such as configuration file handling, simple XML file
+ parsing, IPC etc.
+ .
+ This package contains development files of the Gwenhywfar GUI implementation
+ for GTK3.
+
+Package: libgwengui-qt5-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: libgwenhywfar-core-dev (= ${binary:Version}),
+  libgwengui-qt5-79 (= ${binary:Version}), ${misc:Depends}
+Description: Gwenhywfar GUI implementation for Qt 5 (development files)
+ Gwenhywfar allows porting of your software to different operating
+ systems like Linux, *BSD, Windows etc. It also provides some often
+ needed modules such as configuration file handling, simple XML file
+ parsing, IPC etc.
+ .
+ This package contains development files of the Gwenhywfar GUI implementation
+ for Qt 5.
+
+Package: libgwenhywfar-doc
+Section: doc
+Architecture: all
+Multi-Arch: foreign
+Depends: ${shlibs:Depends}, ${misc:Depends}, libjs-jquery
+Enhances: libgwenhywfar-dev
+Description: OS abstraction layer (API documentation)
+ Gwenhywfar allows porting of your software to different operating
+ systems like Linux, *BSD, Windows etc. It also provides some often
+ needed modules such as configuration file handling, simple XML file
+ parsing, IPC etc.
+ .
+ This package contains the API documentation.
+
+Package: libgwenhywfar79
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgwenhywfar-data (>= ${source:Version})
+Suggests: gwenhywfar-tools
+Description: OS abstraction layer
+ Gwenhywfar allows porting of your software to different operating
+ systems like Linux, *BSD, Windows etc. It also provides some often
+ needed modules such as configuration file handling, simple XML file
+ parsing, IPC etc.
+
+Package: libgwenhywfar-data
+Architecture: all
+Multi-Arch: foreign
+Depends: ${shlibs:Depends}, ${misc:Depends}, ca-certificates
+Recommends: libgwenhywfar79
+Description: OS abstraction layer - data files
+ Gwenhywfar allows porting of your software to different operating
+ systems like Linux, *BSD, Windows etc. It also provides some often
+ needed modules such as configuration file handling, simple XML file
+ parsing, IPC etc.
+ .
+ This package contains data files needed by Gwenhywfar.
+
+Package: gwenhywfar-tools
+Section: utils
+Architecture: any
+Multi-Arch: foreign
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Breaks: libgwenhywfar47-dev (<< 3.99.5beta-1)
+Replaces: libgwenhywfar47-dev (<< 3.99.5beta-1)
+Description: helper applications for Gwenhywfar library
+ This package contains some helper tools provided by Gwenhywfar and
+ useful for applications making use of Gwenhywfar: mklistdoc,
+ gct-tool, xmlmerge and typemaker.
+ .
+ Gwenhywfar allows porting of your software to different operating
+ systems like Linux, *BSD, Windows etc. It also provides some often
+ needed modules such as configuration file handling, simple XML file
+ parsing, IPC etc.
+
+Package: libgwengui-fox16-79
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Gwenhywfar GUI implementation for the FOX Toolkit
+ Gwenhywfar allows porting of your software to different operating
+ systems like Linux, *BSD, Windows etc. It also provides some often
+ needed modules such as configuration file handling, simple XML file
+ parsing, IPC etc.
+ .
+ This package contains a Gwenhywfar GUI implementation for the FOX Toolkit.
+
+Package: libgwengui-qt5-79
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Gwenhywfar GUI implementation for Qt5
+ Gwenhywfar allows porting of your software to different operating
+ systems like Linux, *BSD, Windows etc. It also provides some often
+ needed modules such as configuration file handling, simple XML file
+ parsing, IPC etc.
+ .
+ This package contains a Gwenhywfar GUI implementation for Qt5.
+
+Package: libgwengui-gtk3-79
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Gwenhywfar GUI implementation for GTK3
+ Gwenhywfar allows porting of your software to different operating
+ systems like Linux, *BSD, Windows etc. It also provides some often
+ needed modules such as configuration file handling, simple XML file
+ parsing, IPC etc.
+ .
+ This package contains a Gwenhywfar GUI implementation for GTK3.

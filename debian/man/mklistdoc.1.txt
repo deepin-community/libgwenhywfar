@@ -1,0 +1,44 @@
+MKLISTDOC(1)
+===========
+:author:  Micha Lenk
+:email:   micha@debian.org
+:revdate: 2016-01-30
+
+NAME
+----
+mklistdoc - expands GWEN_LIST macros and create a header file suitable for Doxygen for every encounterd list definition macro
+
+SYNOPSIS
+--------
+'mklistdoc' [options] <input file(s)>
+
+DESCRIPTION
+-----------
+The 'mklistdoc' command parses header files and expands GWEN_LIST macros to
+create a header file suitable for Doxygen for every encounterd list definition
+macro. The generated output is sent to STDOUT.
+
+This tool is used by the build process of AqBanking to generate a more complete
+AqBanking API documentation.
+
+OPTIONS
+-------
+
+-v::
+    Increase the verbosity level.
+
+-I::
+    path to GWEN include headers
+
+BUGS
+----
+There are now known bugs at the time of writing this manual page.
+
+COPYING
+-------
+Copyright \(C) Martin Preuß.
+Free use of this software is granted under the terms of the
+GNU Lesser General Public License (LGPL).
+
+The manpage was composed by Micha Lenk and converted by the nifty tool
+Asciidoctor into a manpage.

@@ -1,0 +1,3 @@
+libgwengui-gtk3.so.79 libgwengui-gtk3-79 #MINVER#
+* Build-Depends-Package: libgwengui-gtk3-dev
+ Gtk3_Gui_new@Base 4.18.0

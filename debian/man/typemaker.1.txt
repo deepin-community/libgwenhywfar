@@ -1,0 +1,67 @@
+TYPEMAKER(1)
+===========
+:author:  Micha Lenk
+:email:   micha@debian.org
+:revdate: 2016-01-30
+
+NAME
+----
+typemaker - source and header file generator for Gwenhywfar and AqBanking data structures
+
+SYNOPSIS
+--------
+'typemaker' [options] <input file(s)>
+
+DESCRIPTION
+-----------
+This tool generates source and header files for simple data containers
+from XML files.  It creates fromDb and toDb functions for structs and
+getters and setters for any member.
+
+This makes it easier to maintain data containers with many members (as
+in AB_TRANSACTION).
+
+A member you add to the XML file will immediately be loaded, saved,
+destroyed and copied with the rest of the struct upon request
+(e.g. _fromDb() will load all members from a GWEN_DB).
+
+The current version creates a C file and headers for it.
+
+It also creates appropriate API documentation if provided with the
+source XML file.
+
+OPTIONS
+-------
+
+-v::
+    Increase the verbosity level.
+--logfile LOGFILE::
+    Specify a name for the logfile.
+--logtype LOGTYPE::
+    Specify the log type.
+--loglevel LOGLEVEL::
+    Specify the log level.
+-d DOMAIN::
+    DOMAIN is the name of the API, e.g. for AqBanking you would choose
+    AQBANKING_API, for Gwen GWENHYWFAR_API etc.  This is used with the list and
+    heritage macros.
+-o OUTFILE::
+    Specify the name of the output file (stdout if omitted).
+--compact::
+    Write a more compact file.
+-V::
+--version::
+    Print version of this tool and exit
+
+BUGS
+----
+There are no known bugs at the time of writing this manual page.
+
+COPYING
+-------
+Copyright \(C) Martin Preuß.
+Free use of this software is granted under the terms of the
+GNU Lesser General Public License (LGPL).
+
+The manpage was composed by Micha Lenk and converted by the nifty tool
+Asciidoctor into a manpage.

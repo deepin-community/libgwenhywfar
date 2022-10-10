@@ -1,0 +1,2 @@
+Tests: libgwenhywfar-core-dev
+Depends: build-essential, pkg-config, libgwenhywfar-core-dev

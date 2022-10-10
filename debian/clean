@@ -1,0 +1,2 @@
+debian/man/*.generated.txt
+debian/man/*.1

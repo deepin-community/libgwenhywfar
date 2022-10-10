@@ -1,0 +1,438 @@
+<?xml?>
+
+<tm2>
+  <type id="GWEN_CRYPT_TOKEN_CONTEXT" type="pointer">
+    <descr>
+    </descr>
+    <lang id="c">
+      <identifier>GWEN_CRYPT_TOKEN_CONTEXT</identifier>
+      <prefix>GWEN_Crypt_Token_Context</prefix>
+      <baseFileName>ct_context</baseFileName>
+      
+      <flags>
+        with_inherit
+        with_xml
+        with_db
+        with_list1
+        with_list2
+        with_refcount
+      </flags>
+      
+      <headers>
+        <header type="sys" loc="pre">gwenhywfar/types.h</header>
+        <header type="sys" loc="pre">gwenhywfar/bindata.h</header>
+        <header type="sys" loc="pre">gwenhywfar/base64.h</header>
+      </headers>
+
+
+      <inlines>
+
+
+        <inline loc="end" access="public">
+          <typeFlagsMask></typeFlagsMask>
+          <typeFlagsValue></typeFlagsValue>
+          <content>
+             $(api) void $(struct_prefix)_SetKeyHash($(struct_type) *st, const uint8_t *p, uint32_t len);
+          </content>
+        </inline>
+
+        <inline loc="code">
+          <typeFlagsMask></typeFlagsMask>
+          <typeFlagsValue></typeFlagsValue>
+          <content>
+
+             void $(struct_prefix)_SetKeyHash($(struct_type) *st, const uint8_t *p, uint32_t len) {
+               assert(st);
+               if (st->keyHash.length &amp;&amp; st->keyHash.pointer)
+                 free(st->keyHash.pointer);
+               if (p &amp;&amp; len) {
+                 st->keyHash.pointer=(uint8_t*) malloc(len); 
+                 if (st->keyHash.pointer) { 
+                   st->keyHash.length=len;
+                   memmove(st->keyHash.pointer, p, len); 
+                 } 
+                 else {
+                   st->keyHash.pointer=NULL;
+                   st->keyHash.length=0; 
+                 } 
+               }
+               else {
+                 st->keyHash.length=0;
+                 st->keyHash.pointer=NULL;
+               }
+             }
+          </content>
+        </inline>
+
+
+
+        <inline loc="end" access="public">
+          <typeFlagsMask></typeFlagsMask>
+          <typeFlagsValue></typeFlagsValue>
+          <content>
+             $(api) const uint8_t* $(struct_prefix)_GetKeyHashPtr(const $(struct_type) *st);
+          </content>
+        </inline>
+
+        <inline loc="code">
+          <typeFlagsMask></typeFlagsMask>
+          <typeFlagsValue></typeFlagsValue>
+          <content>
+
+             const uint8_t* $(struct_prefix)_GetKeyHashPtr(const $(struct_type) *st) {
+               assert(st);
+               return st->keyHash.pointer;
+             }
+          </content>
+        </inline>
+
+
+
+        <inline loc="end" access="public">
+          <typeFlagsMask></typeFlagsMask>
+          <typeFlagsValue></typeFlagsValue>
+          <content>
+             $(api) uint32_t $(struct_prefix)_GetKeyHashLen(const $(struct_type) *st);
+          </content>
+        </inline>
+
+        <inline loc="code">
+          <typeFlagsMask></typeFlagsMask>
+          <typeFlagsValue></typeFlagsValue>
+          <content>
+             uint32_t $(struct_prefix)_GetKeyHashLen(const $(struct_type) *st) {
+               assert(st);
+               return st->keyHash.length;
+             }
+          </content>
+        </inline>
+        
+        
+         <inline loc="end" access="public">
+          <typeFlagsMask></typeFlagsMask>
+          <typeFlagsValue></typeFlagsValue>
+          <content>
+             $(api) void $(struct_prefix)_SetCid($(struct_type) *st, const uint8_t *p, uint32_t len);
+          </content>
+        </inline>
+
+        <inline loc="code">
+          <typeFlagsMask></typeFlagsMask>
+          <typeFlagsValue></typeFlagsValue>
+          <content>
+
+             void $(struct_prefix)_SetCid($(struct_type) *st, const uint8_t *p, uint32_t len) {
+               assert(st);
+               if (st->cid.length &amp;&amp; st->cid.pointer)
+                 free(st->cid.pointer);
+               if (p &amp;&amp; len) {
+                 st->cid.pointer=(uint8_t*) malloc(len); 
+                 if (st->cid.pointer) { 
+                   st->cid.length=len;
+                   memmove(st->cid.pointer, p, len); 
+                 } 
+                 else {
+                   st->cid.pointer=NULL;
+                   st->cid.length=0; 
+                 } 
+               }
+               else {
+                 st->cid.length=0;
+                 st->cid.pointer=NULL;
+               }
+             }
+          </content>
+        </inline>
+
+
+
+        <inline loc="end" access="public">
+          <typeFlagsMask></typeFlagsMask>
+          <typeFlagsValue></typeFlagsValue>
+          <content>
+             $(api) const uint8_t* $(struct_prefix)_GetCidPtr(const $(struct_type) *st);
+          </content>
+        </inline>
+
+        <inline loc="code">
+          <typeFlagsMask></typeFlagsMask>
+          <typeFlagsValue></typeFlagsValue>
+          <content>
+
+             const uint8_t* $(struct_prefix)_GetCidPtr(const $(struct_type) *st) {
+               assert(st);
+               return st->cid.pointer;
+             }
+          </content>
+        </inline>
+
+
+
+        <inline loc="end" access="public">
+          <typeFlagsMask></typeFlagsMask>
+          <typeFlagsValue></typeFlagsValue>
+          <content>
+             $(api) uint32_t $(struct_prefix)_GetCidLen(const $(struct_type) *st);
+          </content>
+        </inline>
+
+        <inline loc="code">
+          <typeFlagsMask></typeFlagsMask>
+          <typeFlagsValue></typeFlagsValue>
+          <content>
+             uint32_t $(struct_prefix)_GetCidLen(const $(struct_type) *st) {
+               assert(st);
+               return st->cid.length;
+             }
+          </content>
+        </inline>
+
+ 
+      </inlines>
+
+    </lang>
+
+
+    <members>
+  
+      <member name="id" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>with_getbymember</flags>
+        <access>public</access>
+      </member>
+
+      <member name="signKeyId" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+      
+      <member name="signKeyNum" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="signKeyVer" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="verifyKeyId" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="encipherKeyId" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="decipherKeyId" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+      
+      <member name="decipherKeyNum" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="decipherKeyVer" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="authSignKeyId" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+      
+      <member name="authSignKeyNum" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="authSignKeyVer" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="authVerifyKeyId" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="tempSignKeyId" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="keyHashNum" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="keyHashVer" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="keyHashAlgo" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="keyHash" type="gwen_bindata" >
+        <default>NULL</default>
+        <preset>NULL</preset>
+        <access>public</access>
+        <flags>own with_hash</flags>
+        <setflags>omit</setflags>
+        <getflags>omit</getflags>
+      </member>
+      
+      <member name="keyStatus" type="uint32_t" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="protocolVersion" type="uint32_t" maxlen="8">
+        <descr>
+          For RDH cards this is the RDH version supported.
+        </descr>
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="cid" type="gwen_bindata" maxlen="256" >
+        <default>NULL</default>
+        <preset>NULL</preset>
+        <access>public</access>
+        <flags>own</flags>
+        <setflags>omit</setflags>
+        <getflags>omit</getflags>
+      </member>
+
+      <member name="serviceId" type="char_ptr" maxlen="64" >
+        <descr>For Homebanking this is the bank code</descr>
+        <default>NULL</default>
+        <preset>NULL</preset>
+        <access>public</access>
+        <flags>own</flags>
+        <setflags>const dup</setflags>
+        <getflags>const</getflags>
+      </member>
+
+      <member name="userId" type="char_ptr" maxlen="64" >
+        <default>NULL</default>
+        <preset>NULL</preset>
+        <access>public</access>
+        <flags>own</flags>
+        <setflags>const dup</setflags>
+        <getflags>const</getflags>
+      </member>
+
+      <member name="customerId" type="char_ptr" maxlen="64" >
+        <default>NULL</default>
+        <preset>NULL</preset>
+        <access>public</access>
+        <flags>own</flags>
+        <setflags>const dup</setflags>
+        <getflags>const</getflags>
+      </member>
+
+      <member name="userName" type="char_ptr" maxlen="64" >
+        <default>NULL</default>
+        <preset>NULL</preset>
+        <access>public</access>
+        <flags>own</flags>
+        <setflags>const dup</setflags>
+        <getflags>const</getflags>
+      </member>
+
+      <member name="peerId" type="char_ptr" maxlen="64" >
+        <default>NULL</default>
+        <preset>NULL</preset>
+        <access>public</access>
+        <flags>own</flags>
+        <setflags>const dup</setflags>
+        <getflags>const</getflags>
+      </member>
+
+      <member name="peerName" type="char_ptr" maxlen="64" >
+        <default>NULL</default>
+        <preset>NULL</preset>
+        <access>public</access>
+        <flags>own</flags>
+        <setflags>const dup</setflags>
+        <getflags>const</getflags>
+      </member>
+
+      <member name="address" type="char_ptr" maxlen="128" >
+        <default>NULL</default>
+        <preset>NULL</preset>
+        <access>public</access>
+        <flags>own</flags>
+        <setflags>const dup</setflags>
+        <getflags>const</getflags>
+      </member>
+
+      <member name="port" type="int" maxlen="8">
+        <default>0</default>
+        <preset>0</preset>
+        <flags>none</flags>
+        <access>public</access>
+      </member>
+
+      <member name="systemId" type="char_ptr" maxlen="256" >
+        <default>NULL</default>
+        <preset>NULL</preset>
+        <access>public</access>
+        <flags>own</flags>
+        <setflags>const dup</setflags>
+        <getflags>const</getflags>
+      </member>
+
+    </members>
+    
+  </type>
+  
+</tm2>
+
+

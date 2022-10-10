@@ -1,0 +1,51 @@
+
+# Macros cmake's CONFIGURE_PACKAGE_CONFIG_FILE() would create
+
+macro(set_and_check _var _file)
+set(${_var} "${_file}")
+if(NOT EXISTS "${_file}")
+  message(FATAL_ERROR "File or directory ${_file} referenced by variable ${_var} does not exist !")
+  endif()
+  endmacro()
+
+  macro(check_required_components _NAME)
+  foreach(comp ${${_NAME}_FIND_COMPONENTS})
+    if(NOT ${_NAME}_${comp}_FOUND)
+        if(${_NAME}_FIND_REQUIRED_${comp})
+        set(${_NAME}_FOUND FALSE)
+        endif()
+    endif()
+  endforeach()
+endmacro()
+
+include(CMakeFindDependencyMacro)
+find_dependency(gwengui-cpp "@GWENHYWFAR_VERSION_STRING@")
+find_dependency(Qt5Core)
+find_dependency(Qt5Widgets)
+
+
+set_and_check(prefix "@prefix@")
+set_and_check(exec_prefix "@exec_prefix@")
+set_and_check(includedir "@includedir@")
+set_and_check(${CMAKE_FIND_PACKAGE_NAME}_INCLUDE_DIRS "@gwenhywfar_headerdir@")
+if(WIN32)
+    set_and_check(${CMAKE_FIND_PACKAGE_NAME}_LIBRARIES "@libdir@/libgwengui-qt5.dll.a")
+elseif(APPLE)
+    set_and_check(${CMAKE_FIND_PACKAGE_NAME}_LIBRARIES "@libdir@/libgwengui-qt5.dylib")
+else()
+    set_and_check(${CMAKE_FIND_PACKAGE_NAME}_LIBRARIES "@libdir@/libgwengui-qt5.so")
+endif()
+
+set(${CMAKE_FIND_PACKAGE_NAME}_FOUND true)
+
+if(NOT TARGET gwenhywfar::gui-qt5)
+  add_library(gwenhywfar::gui-qt5 UNKNOWN IMPORTED)
+  set_target_properties(gwenhywfar::gui-qt5 PROPERTIES
+    IMPORTED_LOCATION "${${CMAKE_FIND_PACKAGE_NAME}_LIBRARIES}"
+    INTERFACE_INCLUDE_DIRECTORIES "${${CMAKE_FIND_PACKAGE_NAME}_INCLUDE_DIRS}"
+    INTERFACE_LINK_LIBRARIES "gwenhywfar::core;gwenhywfar::gui-cpp;Qt5::Core;Qt5::Widgets"
+  )
+endif()
+
+set(${CMAKE_FIND_PACKAGE_NAME}_LIBRARIES "${${CMAKE_FIND_PACKAGE_NAME}_LIBRARIES};gwenhywfar::core;gwenhywfar::gui-cpp")
+mark_as_advanced( ${CMAKE_FIND_PACKAGE_NAME}_INCLUDE_DIRS ${CMAKE_FIND_PACKAGE_NAME}_LIBRARIES ${CMAKE_FIND_PACKAGE_NAME}_INCLUDE_DIRS)

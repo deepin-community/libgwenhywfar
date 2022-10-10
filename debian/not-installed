@@ -1,0 +1,4 @@
+usr/bin/gwenhywfar-config
+usr/lib/${DEB_HOST_MULTIARCH}/libgwengui-*.la
+usr/lib/${DEB_HOST_MULTIARCH}/libgwenhywfar.la
+usr/lib/${DEB_HOST_MULTIARCH}/gwenhywfar/plugins/*/*/*.la

@@ -1,0 +1,8 @@
+usr/include/gwenhywfar*/gwenhywfar/*.h
+usr/include/gwenhywfar*/gwen-gui-cpp/*
+usr/lib/*/libgwengui-cpp.so
+usr/lib/*/libgwenhywfar.so
+usr/lib/*/cmake/gwengui-cpp-*
+usr/lib/*/cmake/gwenhywfar-*
+usr/lib/*/pkgconfig/gwenhywfar.pc
+usr/share/aclocal/*

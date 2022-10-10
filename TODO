@@ -1,0 +1,80 @@
+
+GUI dialogs:
+- implement "keyPressed" and "keyReleased" events in GTK3 and QT5 frontends
+- implement "frame*" widget flags in GTK3 and QT5 frontends
+
+typemaker2:
+ - add a field annotoations (e.g. "personal data")
+
+logger:
+ - finer granularity for loglevels
+   - introduce subdomains
+     - gwenhywfar/syncio
+     - gwenhywfar/http
+     - gwenhywfar/gui
+     - etc
+   - GWEN_Logger_CreateSubDomains(maindomain, "syncio,http,gui,db,xml,crypt", logLevel)
+   - GWEN_Logger_SetupSubDomains(maindomain, "syncio=notice,http=debug,gui=info", defaultLogLevel)
+   - in source files, e.g. syncio_http:
+     #ifdef   GWEN_LOGDOMAIN
+     # undef  GWEN_LOGDOMAIN
+     # define GWEN_LOGDOMAIN "gwenhywfar/http"
+     #endif
+
+sio:
+ - ssl_cert_descr -> typemaker2
+
+tm2:
+  - inline loc="struct" -> insert fields into the struct definition
+
+  - inline loc="constructor": -> insert code into constructor
+  - inline loc="destructor": -> insert code into constructor
+  -> or maybe: make the field definition also a part of the tm2 mechanisms
+     already in place (i.e. defined in tm2 files?)
+
+
+xml:
+  - add argument to file reader/writer code which contains the target
+    encoding
+
+Get root CA certs:
+http://curl.haxx.se/docs/caextract.html
+
+
+
+# get a list of exported functions:
+nm libgwenhywfar.so | grep ' T ' | awk '{ print $3 }' | less
+# or
+nm libgwenhywfar.so | grep ' T ' | cut -c20- | sort
+
+# get a list of functions imported from other libraries
+nm libgwenhywfar.so | grep ' U ' | awk '{ print $2 }' | less
+# or 
+nm libgwenhywfar.so | grep ' U ' | cut -c20- | sort | uniq
+
+
+Callgraphs
+
+- Generate callgraphs:
+  make CC=/usr/gccgraph/bin/gcc
+  C  : genfull
+  C++: genfull -g cppdepn
+- Show callgraph for s specific function:
+  gengraph -f FUNCTION_NAME -o OUTFILENAME --output-type=png
+
+
+
+
+# read openssl certs
+d = opendir("/etc/ssl/certs");
+gnutls_certificate_allocate_credentials(&ca_list);
+while ((dent = readdir(d)) != NULL) {
+  sprintf(ca_file, "/etc/ssl/certs/%s", dent->d_name);
+  stat(ca_file, &s);
+  if (!S_ISREG(s.st_mode)) continue;
+  gnutls_certificate_set_x509_trust_file(ca_list, ca_file,
+       GNUTLS_X509_FMT_PEM);
+}
+closedir(d);
+
+

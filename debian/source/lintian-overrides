@@ -1,0 +1,3 @@
+# upstream increments the version number for every release, i.e. release
+# candidates have lower version numbers than the expected final release.
+rc-version-greater-than-expected-version
