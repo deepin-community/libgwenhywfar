@@ -1,8 +1,12 @@
-libgwenhywfar (5.9.0-1+u001) UNRELEASED; urgency=medium
+libgwenhywfar (5.9.0-1deepin) unstable; urgency=medium
 
+  [ Micha Lenk ]
   * update
 
- -- Micha Lenk <micha@debian.org>  Wed, 27 Apr 2022 13:48:14 +0800
+  [ Yutao Meng ]
+  * Regulate version name
+
+ -- Yutao Meng <mengyutao@uniontech.com>  Tue, 21 Mar 2023 11:28:47 +0800
 
 libgwenhywfar (5.9.0-1) unstable; urgency=medium
 
