@@ -1207,6 +1207,15 @@ libgwenhywfar.so.79 libgwenhywfar79 #MINVER#
  GWEN_FastBuffer_new@Base 3.1.0
  GWEN_Fini@Base 3.1.0
  GWEN_Fini_Forced@Base 3.1.0
+ GWEN_Funcs_Call@Base 5.10.1
+ GWEN_Funcs_Call_Args@Base 5.10.1
+ GWEN_Funcs_Call_DB_NODE_Args@Base 5.10.1
+ GWEN_Funcs_Find@Base 5.10.1
+ GWEN_Funcs_Has_Call@Base 5.10.1
+ GWEN_Funcs_Has_Call_Args@Base 5.10.1
+ GWEN_Funcs_Has_Call_DB_NODE_Args@Base 5.10.1
+ GWEN_Funcs_Usage@Base 5.10.1
+ GWEN_Funcs_Usage_With_Help@Base 5.10.1
  GWEN_GUI__INHERIT_GETLIST@Base 3.1.0
  GWEN_GUI__INHERIT_ISOFTYPE@Base 3.1.0
  GWEN_GUI__INHERIT_SETDATA@Base 3.1.0

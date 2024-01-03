@@ -3,7 +3,7 @@
 
 
 %define name gwenhywfar
-%define version 5.9.0
+%define version 5.10.2
 %define rpm_cxxflags \"-O2 -march=i486 -mcpu=i586\"
 %define rpm_cflags \"-O2 -march=i486 -mcpu=i586\"
 

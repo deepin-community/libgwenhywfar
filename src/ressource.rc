@@ -43,8 +43,8 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 // Version
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 5, 9, 0, 0
- PRODUCTVERSION 5, 9, 0, 0
+ FILEVERSION 5, 10, 2, 0
+ PRODUCTVERSION 5, 10, 2, 0
  FILEFLAGSMASK 0x3fL
  FILEFLAGS 0x0L
  FILEOS 0x40004L      // Windows NT
@@ -58,14 +58,14 @@ BEGIN
             //VALUE "Comments", "\0"
             VALUE "CompanyName", " Aquamaniac\0"
             VALUE "FileDescription", "Multi purpose library\0"
-            VALUE "FileVersion", "v5.9.0\0"
+            VALUE "FileVersion", "v5.10.2\0"
             VALUE "InternalName", "Gwenhywfar\0"
             VALUE "LegalCopyright", "Copyright © 2003 by Martin Preuss\0"
             VALUE "LegalTrademarks", "Aquamaniac\0"
             VALUE "OriginalFilename", "GWENHYWFAR32.DLL\0"
             //VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "Gwenhywfar\0"
-            VALUE "ProductVersion", "v5.9.0stable-0\0"
+            VALUE "ProductVersion", "v5.10.2stable-0\0"
             VALUE "Author", "Martin Preuss\0"
             VALUE "Email", "martin@libchipcard.de\0"
             VALUE "Homepage", "http://gwenhywfar.sf.net/\0"

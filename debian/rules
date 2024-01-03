@@ -23,6 +23,7 @@ override_dh_auto_configure:
 		--enable-system-certs \
 		--with-openssl-libs=/usr/lib/$(DEB_TARGET_MULTIARCH) \
 		--with-libxml2-code=yes \
+		--disable-binreloc \
 		--disable-network-checks
 
 override_dh_auto_build:

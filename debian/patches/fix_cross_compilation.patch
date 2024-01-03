@@ -1,0 +1,46 @@
+Description: Fix cross compilation
+ libgwenhywfar failed to cross build from source, because it fails running
+ mklistdoc with an "Exec format error". This happens when attempting to
+ run a tool that is built for the host architecture. mklistdoc really
+ needs to be built for the host architecture, because it is installed
+ into gwenhywfar-tools. On the flip side that means that we can just run
+ the mklistdoc from a system gwenhywfar-tools. Note that this change only
+ affects cross compilation. In native builds, the built mklistdoc will
+ continue to be used.
+Author: Helmut Grohne <helmut@subdivi.de>
+Bug-Debian: https://bugs.debian.org/1051173
+Forwarded: https://www.aquamaniac.de/rdm/projects/gwenhywfar/repository/revisions/8ca14d320807bb7d39acb8d5a3b411a54dd25cb2
+Applied-Upstream: commit:8ca14d320807bb7d39acb8d5a3b411a54dd25cb2
+Reviewed-by: Micha Lenk <micha@debian.org>
+Last-Update: 2023-09-09
+
+--- libgwenhywfar-5.10.2.orig/Makefile.am
++++ libgwenhywfar-5.10.2/Makefile.am
+@@ -51,8 +51,15 @@
+ distclean-local-check:
+ 	rm -rf apidoc gwenhywfar5
+ 
+-listdoc.h: $(top_builddir)/admin/mklistdoc
+-	admin/mklistdoc -v -I $(top_srcdir)/src/base `find "$(top_builddir)/gwenhywfar5/gwenhywfar" -name "*.h" | LC_ALL=C sort` >listdoc.h
++if CROSS_COMPILING
++mklistdoc_preqreq =
++mklistdoc_exe = mklistdoc
++else
++mklistdoc_prereq = $(top_builddir)/admin/mklistdoc
++mklistdoc_exe = admin/mklistdoc
++endif
++listdoc.h: $(mklistdoc_prereq)
++	$(mklistdoc_exe) -v -I $(top_srcdir)/src/base `find "$(top_builddir)/gwenhywfar5/gwenhywfar" -name "*.h" | LC_ALL=C sort` >$@
+ 
+ $(top_builddir)/admin/mklistdoc:	
+ 	$(MAKE) -C "$(top_builddir)/admin" mklistdoc
+--- libgwenhywfar-5.10.2.orig/configure.ac
++++ libgwenhywfar-5.10.2/configure.ac
+@@ -218,6 +218,7 @@
+ 
+ # Check for the tool "astyle", but if not found, replace its program call by the no-op "echo" instead
+ AC_CHECK_PROG(ASTYLE, astyle, astyle, echo)
++AM_CONDITIONAL(CROSS_COMPILING, test x$cross_compiling = xyes)
+ 
+ ###-------------------------------------------------------------------------
+ #

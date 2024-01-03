@@ -1,12 +1,33 @@
-libgwenhywfar (5.9.0-1deepin) unstable; urgency=medium
+libgwenhywfar (5.10.2-2) unstable; urgency=medium
 
-  [ Micha Lenk ]
-  * update
+  * Fix FTCBFS: Use mklistdoc from installed gwenhywfar-tools (Closes: #1051173)
+    and disable binreloc (causes test-crossbuild-arm64 to fail in Salsa CI).
+  * debian/salsa-ci.yml: Treat test-crossbuild-arm64 failures as build failure.
 
-  [ Yutao Meng ]
-  * Regulate version name
+ -- Micha Lenk <micha@debian.org>  Sun, 17 Sep 2023 18:26:53 +0200
 
- -- Yutao Meng <mengyutao@uniontech.com>  Tue, 21 Mar 2023 11:28:47 +0800
+libgwenhywfar (5.10.2-1) unstable; urgency=medium
+
+  * New upstream version 5.10.2.
+  * Drop 0001-Remove-duplicate-hostname-check.patch (applied upstream).
+  * debian/control: Bump standards version to 4.6.2 (no changes needed).
+
+ -- Micha Lenk <micha@debian.org>  Sun, 13 Aug 2023 20:42:52 +0200
+
+libgwenhywfar (5.10.1-2) unstable; urgency=medium
+
+  * Add patch 0001-Remove-duplicate-hostname-check.patch to fix too restrictive
+    SSL hostname check with SAN certifices (Closes: #1034577).
+
+ -- Micha Lenk <micha@debian.org>  Tue, 18 Apr 2023 22:12:21 +0200
+
+libgwenhywfar (5.10.1-1) unstable; urgency=medium
+
+  * New upstream version 5.10.1.
+  * debian/libgwenhywfar79.symbols: Add new symbols.
+  * debian/control: Bump standards version to 4.6.1 (no changes needed).
+
+ -- Micha Lenk <micha@debian.org>  Thu, 11 Aug 2022 21:29:19 +0200
 
 libgwenhywfar (5.9.0-1) unstable; urgency=medium
 

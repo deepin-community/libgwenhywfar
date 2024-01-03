@@ -662,6 +662,9 @@ PROG_LIBRARIES
 GWEN_OS
 DOXYGEN_DEFINE
 DOXYGEN_INPUT
+DOXYGEN_QHP_NAMESPACE
+DOXYGEN_QHG_LOCATION
+DOXYGEN_GENERATE_QHP
 gwenhywfar_buffer_hardlimit
 WERROR
 visibility_cflags
@@ -749,6 +752,7 @@ GPG_ERROR_MT_LIBS
 GPG_ERROR_MT_CFLAGS
 GPG_ERROR_LIBS
 GPG_ERROR_CFLAGS
+GPGRT_CONFIG
 GPG_ERROR_CONFIG
 LIBGCRYPT_CONFIG
 LIBGCRYPT_LIBS
@@ -823,7 +827,6 @@ am__nodep
 AMDEPBACKSLASH
 AMDEP_FALSE
 AMDEP_TRUE
-am__quote
 am__include
 DEPDIR
 OBJEXT
@@ -937,7 +940,8 @@ PACKAGE_VERSION
 PACKAGE_TARNAME
 PACKAGE_NAME
 PATH_SEPARATOR
-SHELL'
+SHELL
+am__quote'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
@@ -2939,8 +2943,8 @@ ac_config_headers="$ac_config_headers config.h"
 # versions
 #
 GWENHYWFAR_VERSION_MAJOR=5
-GWENHYWFAR_VERSION_MINOR=9
-GWENHYWFAR_VERSION_PATCHLEVEL=0
+GWENHYWFAR_VERSION_MINOR=10
+GWENHYWFAR_VERSION_PATCHLEVEL=2
 GWENHYWFAR_VERSION_BUILD=0
 GWENHYWFAR_VERSION_TAG="stable"
 
@@ -2950,9 +2954,9 @@ GWENHYWFAR_VERSION_TAG="stable"
 #
 # SO version for Gwenhywfar
 #
-GWENHYWFAR_SO_CURRENT="88"
-GWENHYWFAR_SO_AGE="9"
-GWENHYWFAR_SO_REVISION="0"
+GWENHYWFAR_SO_CURRENT="89"
+GWENHYWFAR_SO_AGE="10"
+GWENHYWFAR_SO_REVISION="2"
 GWENHYWFAR_SO_EFFECTIVE="`echo \$(($GWENHYWFAR_SO_CURRENT-$GWENHYWFAR_SO_AGE))`"
 
 
@@ -3050,7 +3054,7 @@ _ACEOF
 
 
 
-am__api_version='1.15'
+am__api_version='1.16'
 
 # Find a good install program.  We prefer a C program (faster),
 # so one script is as good as another.  But avoid the broken or
@@ -3567,8 +3571,8 @@ MAKEINFO=${MAKEINFO-"${am_missing_run}makeinfo"}
 
 # For better backward compatibility.  To be removed once Automake 1.9.x
 # dies out for good.  For more background, see:
-# <http://lists.gnu.org/archive/html/automake/2012-07/msg00001.html>
-# <http://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
+# <https://lists.gnu.org/archive/html/automake/2012-07/msg00001.html>
+# <https://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
 mkdir_p='$(MKDIR_P)'
 
 # We need awk for the "check" target (and possibly the TAP driver).  The
@@ -3619,7 +3623,7 @@ END
 Aborting the configuration process, to ensure you take notice of the issue.
 
 You can download and install GNU coreutils to get an 'rm' implementation
-that behaves properly: <http://www.gnu.org/software/coreutils/>.
+that behaves properly: <https://www.gnu.org/software/coreutils/>.
 
 If you want to complete the configuration process using your problematic
 'rm' anyway, export the environment variable ACCEPT_INFERIOR_RM_PROGRAM
@@ -4774,45 +4778,45 @@ DEPDIR="${am__leading_dot}deps"
 
 ac_config_commands="$ac_config_commands depfiles"
 
-
-am_make=${MAKE-make}
-cat > confinc << 'END'
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether ${MAKE-make} supports the include directive" >&5
+$as_echo_n "checking whether ${MAKE-make} supports the include directive... " >&6; }
+cat > confinc.mk << 'END'
 am__doit:
-	@echo this is the am__doit target
+	@echo this is the am__doit target >confinc.out
 .PHONY: am__doit
 END
-# If we don't find an include directive, just comment out the code.
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for style of include used by $am_make" >&5
-$as_echo_n "checking for style of include used by $am_make... " >&6; }
 am__include="#"
 am__quote=
-_am_result=none
-# First try GNU make style include.
-echo "include confinc" > confmf
-# Ignore all kinds of additional output from 'make'.
-case `$am_make -s -f confmf 2> /dev/null` in #(
-*the\ am__doit\ target*)
-  am__include=include
-  am__quote=
-  _am_result=GNU
-  ;;
-esac
-# Now try BSD make style include.
-if test "$am__include" = "#"; then
-   echo '.include "confinc"' > confmf
-   case `$am_make -s -f confmf 2> /dev/null` in #(
-   *the\ am__doit\ target*)
-     am__include=.include
-     am__quote="\""
-     _am_result=BSD
+# BSD make does it like this.
+echo '.include "confinc.mk" # ignored' > confmf.BSD
+# Other make implementations (GNU, Solaris 10, AIX) do it like this.
+echo 'include confinc.mk # ignored' > confmf.GNU
+_am_result=no
+for s in GNU BSD; do
+  { echo "$as_me:$LINENO: ${MAKE-make} -f confmf.$s && cat confinc.out" >&5
+   (${MAKE-make} -f confmf.$s && cat confinc.out) >&5 2>&5
+   ac_status=$?
+   echo "$as_me:$LINENO: \$? = $ac_status" >&5
+   (exit $ac_status); }
+  case $?:`cat confinc.out 2>/dev/null` in #(
+  '0:this is the am__doit target') :
+    case $s in #(
+  BSD) :
+    am__include='.include' am__quote='"' ;; #(
+  *) :
+    am__include='include' am__quote='' ;;
+esac ;; #(
+  *) :
      ;;
-   esac
-fi
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $_am_result" >&5
-$as_echo "$_am_result" >&6; }
-rm -f confinc confmf
+esac
+  if test "$am__include" != "#"; then
+    _am_result="yes ($s style)"
+    break
+  fi
+done
+rm -f confinc.* confmf.*
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ${_am_result}" >&5
+$as_echo "${_am_result}" >&6; }
 
 # Check whether --enable-dependency-tracking was given.
 if test "${enable_dependency_tracking+set}" = set; then :
@@ -7465,7 +7469,7 @@ esac
 fi
 
 : ${AR=ar}
-: ${AR_FLAGS=cru}
+: ${AR_FLAGS=cr}
 
 
 
@@ -7966,11 +7970,8 @@ _LT_EOF
   test $ac_status = 0; }; then
     # Now try to grab the symbols.
     nlist=conftest.nm
-    if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$NM conftest.$ac_objext \| "$lt_cv_sys_global_symbol_pipe" \> $nlist\""; } >&5
-  (eval $NM conftest.$ac_objext \| "$lt_cv_sys_global_symbol_pipe" \> $nlist) 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; } && test -s "$nlist"; then
+    $ECHO "$as_me:$LINENO: $NM conftest.$ac_objext | $lt_cv_sys_global_symbol_pipe > $nlist" >&5
+    if eval "$NM" conftest.$ac_objext \| "$lt_cv_sys_global_symbol_pipe" \> $nlist 2>&5 && test -s "$nlist"; then
       # Try sorting and uniquifying the output.
       if sort "$nlist" | uniq > "$nlist"T; then
 	mv -f "$nlist"T "$nlist"
@@ -9189,8 +9190,8 @@ int forced_loaded() { return 2;}
 _LT_EOF
       echo "$LTCC $LTCFLAGS -c -o conftest.o conftest.c" >&5
       $LTCC $LTCFLAGS -c -o conftest.o conftest.c 2>&5
-      echo "$AR cru libconftest.a conftest.o" >&5
-      $AR cru libconftest.a conftest.o 2>&5
+      echo "$AR cr libconftest.a conftest.o" >&5
+      $AR cr libconftest.a conftest.o 2>&5
       echo "$RANLIB libconftest.a" >&5
       $RANLIB libconftest.a 2>&5
       cat > conftest.c << _LT_EOF
@@ -10131,6 +10132,12 @@ lt_prog_compiler_static=
       ecc*)
 	lt_prog_compiler_wl='-Wl,'
 	lt_prog_compiler_pic='-KPIC'
+	lt_prog_compiler_static='-static'
+        ;;
+      # flang / f18. f95 an alias for gfortran or flang on Debian
+      flang* | f18* | f95*)
+	lt_prog_compiler_wl='-Wl,'
+	lt_prog_compiler_pic='-fPIC'
 	lt_prog_compiler_static='-static'
         ;;
       # icc used to be incompatible with GCC.
@@ -14075,7 +14082,7 @@ with_gnu_ld=$lt_cv_prog_gnu_ld
       # Commands to make compiler produce verbose output that lists
       # what "hidden" libraries, object files and flags are used when
       # linking a shared library.
-      output_verbose_link_cmd='$CC -shared $CFLAGS -v conftest.$objext 2>&1 | $GREP -v "^Configured with:" | $GREP "\-L"'
+      output_verbose_link_cmd='$CC -shared $CFLAGS -v conftest.$objext 2>&1 | $GREP -v "^Configured with:" | $GREP " \-L"'
 
     else
       GXX=no
@@ -14567,7 +14574,7 @@ fi
             # explicitly linking system object files so we need to strip them
             # from the output so that they don't get included in the library
             # dependencies.
-            output_verbose_link_cmd='templist=`($CC -b $CFLAGS -v conftest.$objext 2>&1) | $EGREP "\-L"`; list= ; for z in $templist; do case $z in conftest.$objext) list="$list $z";; *.$objext);; *) list="$list $z";;esac; done; func_echo_all "$list"'
+            output_verbose_link_cmd='templist=`($CC -b $CFLAGS -v conftest.$objext 2>&1) | $EGREP " \-L"`; list= ; for z in $templist; do case $z in conftest.$objext) list="$list $z";; *.$objext);; *) list="$list $z";;esac; done; func_echo_all "$list"'
             ;;
           *)
             if test yes = "$GXX"; then
@@ -14632,7 +14639,7 @@ fi
 	    # explicitly linking system object files so we need to strip them
 	    # from the output so that they don't get included in the library
 	    # dependencies.
-	    output_verbose_link_cmd='templist=`($CC -b $CFLAGS -v conftest.$objext 2>&1) | $GREP "\-L"`; list= ; for z in $templist; do case $z in conftest.$objext) list="$list $z";; *.$objext);; *) list="$list $z";;esac; done; func_echo_all "$list"'
+	    output_verbose_link_cmd='templist=`($CC -b $CFLAGS -v conftest.$objext 2>&1) | $GREP " \-L"`; list= ; for z in $templist; do case $z in conftest.$objext) list="$list $z";; *.$objext);; *) list="$list $z";;esac; done; func_echo_all "$list"'
 	    ;;
           *)
 	    if test yes = "$GXX"; then
@@ -14971,7 +14978,7 @@ fi
 	      # Commands to make compiler produce verbose output that lists
 	      # what "hidden" libraries, object files and flags are used when
 	      # linking a shared library.
-	      output_verbose_link_cmd='$CC -shared $CFLAGS -v conftest.$objext 2>&1 | $GREP -v "^Configured with:" | $GREP "\-L"'
+	      output_verbose_link_cmd='$CC -shared $CFLAGS -v conftest.$objext 2>&1 | $GREP -v "^Configured with:" | $GREP " \-L"'
 
 	    else
 	      # FIXME: insert proper C++ library support
@@ -15055,7 +15062,7 @@ fi
 	        # Commands to make compiler produce verbose output that lists
 	        # what "hidden" libraries, object files and flags are used when
 	        # linking a shared library.
-	        output_verbose_link_cmd='$CC -shared $CFLAGS -v conftest.$objext 2>&1 | $GREP -v "^Configured with:" | $GREP "\-L"'
+	        output_verbose_link_cmd='$CC -shared $CFLAGS -v conftest.$objext 2>&1 | $GREP -v "^Configured with:" | $GREP " \-L"'
 	      else
 	        # g++ 2.7 appears to require '-G' NOT '-shared' on this
 	        # platform.
@@ -15066,7 +15073,7 @@ fi
 	        # Commands to make compiler produce verbose output that lists
 	        # what "hidden" libraries, object files and flags are used when
 	        # linking a shared library.
-	        output_verbose_link_cmd='$CC -G $CFLAGS -v conftest.$objext 2>&1 | $GREP -v "^Configured with:" | $GREP "\-L"'
+	        output_verbose_link_cmd='$CC -G $CFLAGS -v conftest.$objext 2>&1 | $GREP -v "^Configured with:" | $GREP " \-L"'
 	      fi
 
 	      hardcode_libdir_flag_spec_CXX='$wl-R $wl$libdir'
@@ -21082,8 +21089,21 @@ fi
   if test x"${LIBGCRYPT_CONFIG}" = x ; then
      if test x"${libgcrypt_config_prefix}" != x ; then
         LIBGCRYPT_CONFIG="${libgcrypt_config_prefix}/bin/libgcrypt-config"
-     else
-       case "${SYSROOT}" in
+     fi
+  fi
+
+  use_gpgrt_config=""
+  if test x"${LIBGCRYPT_CONFIG}" = x -a x"$GPGRT_CONFIG" != x -a "$GPGRT_CONFIG" != "no"; then
+    if $GPGRT_CONFIG libgcrypt --exists; then
+      LIBGCRYPT_CONFIG="$GPGRT_CONFIG libgcrypt"
+      { $as_echo "$as_me:${as_lineno-$LINENO}: Use gpgrt-config as libgcrypt-config" >&5
+$as_echo "$as_me: Use gpgrt-config as libgcrypt-config" >&6;}
+      use_gpgrt_config=yes
+    fi
+  fi
+  if test -z "$use_gpgrt_config"; then
+    if test x"${LIBGCRYPT_CONFIG}" = x ; then
+      case "${SYSROOT}" in
          /*)
            if test -x "${SYSROOT}/bin/libgcrypt-config" ; then
              LIBGCRYPT_CONFIG="${SYSROOT}/bin/libgcrypt-config"
@@ -21095,11 +21115,9 @@ fi
            { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Ignoring \$SYSROOT as it is not an absolute path." >&5
 $as_echo "$as_me: WARNING: Ignoring \$SYSROOT as it is not an absolute path." >&2;}
            ;;
-       esac
-     fi
-  fi
-
-  # Extract the first word of "libgcrypt-config", so it can be a program name with args.
+      esac
+    fi
+    # Extract the first word of "libgcrypt-config", so it can be a program name with args.
 set dummy libgcrypt-config; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
@@ -21140,6 +21158,8 @@ $as_echo "no" >&6; }
 fi
 
 
+  fi
+
   tmp="$NEED_LIBGCRYPT_API:$NEED_LIBGCRYPT_VERSION"
   if echo "$tmp" | grep ':' >/dev/null 2>/dev/null ; then
      req_libgcrypt_api=`echo "$tmp"     | sed 's/\(.*\):\(.*\)/\1/'`
@@ -21159,7 +21179,11 @@ $as_echo_n "checking for LIBGCRYPT - version >= $min_libgcrypt_version... " >&6;
                sed 's/\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)/\2/'`
     req_micro=`echo $min_libgcrypt_version | \
                sed 's/\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\)/\3/'`
-    libgcrypt_config_version=`$LIBGCRYPT_CONFIG --version`
+    if test -z "$use_gpgrt_config"; then
+      libgcrypt_config_version=`$LIBGCRYPT_CONFIG --version`
+    else
+      libgcrypt_config_version=`$LIBGCRYPT_CONFIG --modversion`
+    fi
     major=`echo $libgcrypt_config_version | \
                sed 's/\([0-9]*\)\.\([0-9]*\)\.\([0-9]*\).*/\1/'`
     minor=`echo $libgcrypt_config_version | \
@@ -21193,7 +21217,11 @@ $as_echo "no" >&6; }
      # If we have a recent libgcrypt, we should also check that the
      # API is compatible
      if test "$req_libgcrypt_api" -gt 0 ; then
-        tmp=`$LIBGCRYPT_CONFIG --api-version 2>/dev/null || echo 0`
+        if test -z "$use_gpgrt_config"; then
+           tmp=`$LIBGCRYPT_CONFIG --api-version 2>/dev/null || echo 0`
+	else
+           tmp=`$LIBGCRYPT_CONFIG --variable=api_version 2>/dev/null || echo 0`
+	fi
         if test "$tmp" -gt 0 ; then
            { $as_echo "$as_me:${as_lineno-$LINENO}: checking LIBGCRYPT API version" >&5
 $as_echo_n "checking LIBGCRYPT API version... " >&6; }
@@ -21212,12 +21240,16 @@ $as_echo "does not match. want=$req_libgcrypt_api got=$tmp" >&6; }
     LIBGCRYPT_CFLAGS=`$LIBGCRYPT_CONFIG --cflags`
     LIBGCRYPT_LIBS=`$LIBGCRYPT_CONFIG --libs`
     have_gcrypt="yes"
-    libgcrypt_config_host=`$LIBGCRYPT_CONFIG --host 2>/dev/null || echo none`
+    if test -z "$use_gpgrt_config"; then
+      libgcrypt_config_host=`$LIBGCRYPT_CONFIG --host 2>/dev/null || echo none`
+    else
+      libgcrypt_config_host=`$LIBGCRYPT_CONFIG --variable=host 2>/dev/null || echo none`
+    fi
     if test x"$libgcrypt_config_host" != xnone ; then
       if test x"$libgcrypt_config_host" != x"$host" ; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING:
 ***
-*** The config script $LIBGCRYPT_CONFIG was
+*** The config script \"$LIBGCRYPT_CONFIG\" was
 *** built for $libgcrypt_config_host and thus may not match the
 *** used host $host.
 *** You may want to use the configure option --with-libgcrypt-prefix
@@ -21225,7 +21257,7 @@ $as_echo "does not match. want=$req_libgcrypt_api got=$tmp" >&6; }
 ***" >&5
 $as_echo "$as_me: WARNING:
 ***
-*** The config script $LIBGCRYPT_CONFIG was
+*** The config script \"$LIBGCRYPT_CONFIG\" was
 *** built for $libgcrypt_config_host and thus may not match the
 *** used host $host.
 *** You may want to use the configure option --with-libgcrypt-prefix
@@ -21333,17 +21365,96 @@ $as_echo "no" >&6; }
 fi
 
 
-  min_gpg_error_version=0.0
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GPG Error - version >= $min_gpg_error_version" >&5
-$as_echo_n "checking for GPG Error - version >= $min_gpg_error_version... " >&6; }
+  min_gpg_error_version=1.33
   ok=no
-  if test "$GPG_ERROR_CONFIG" != "no" \
-     && test -f "$GPG_ERROR_CONFIG" ; then
+
+  if test "$prefix" = NONE ; then
+    prefix_option_expanded=/usr/local
+  else
+    prefix_option_expanded="$prefix"
+  fi
+  if test "$exec_prefix" = NONE ; then
+    exec_prefix_option_expanded=$prefix_option_expanded
+  else
+    exec_prefix_option_expanded=$(prefix=$prefix_option_expanded eval echo $exec_prefix)
+  fi
+  libdir_option_expanded=$(prefix=$prefix_option_expanded exec_prefix=$exec_prefix_option_expanded eval echo $libdir)
+
+  if test -f $libdir_option_expanded/pkgconfig/gpg-error.pc; then
+    gpgrt_libdir=$libdir_option_expanded
+  else
+    if crt1_path=$(${CC:-cc} -print-file-name=crt1.o 2>/dev/null); then
+      if possible_libdir=$(cd ${crt1_path%/*} && pwd 2>/dev/null); then
+        if test -f $possible_libdir/pkgconfig/gpg-error.pc; then
+          gpgrt_libdir=$possible_libdir
+        fi
+      fi
+    fi
+  fi
+
+  if test "$GPG_ERROR_CONFIG" = "no" -a -n "$gpgrt_libdir"; then
+    # Extract the first word of "gpgrt-config", so it can be a program name with args.
+set dummy gpgrt-config; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_GPGRT_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $GPGRT_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_GPGRT_CONFIG="$GPGRT_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_GPGRT_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_path_GPGRT_CONFIG" && ac_cv_path_GPGRT_CONFIG="no"
+  ;;
+esac
+fi
+GPGRT_CONFIG=$ac_cv_path_GPGRT_CONFIG
+if test -n "$GPGRT_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GPGRT_CONFIG" >&5
+$as_echo "$GPGRT_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    if test "$GPGRT_CONFIG" = "no"; then
+      unset GPGRT_CONFIG
+    else
+      GPGRT_CONFIG="$GPGRT_CONFIG --libdir=$gpgrt_libdir"
+      if $GPGRT_CONFIG gpg-error >/dev/null 2>&1; then
+        GPG_ERROR_CONFIG="$GPGRT_CONFIG gpg-error"
+        { $as_echo "$as_me:${as_lineno-$LINENO}: Use gpgrt-config with $gpgrt_libdir as gpg-error-config" >&5
+$as_echo "$as_me: Use gpgrt-config with $gpgrt_libdir as gpg-error-config" >&6;}
+        gpg_error_config_version=`$GPG_ERROR_CONFIG --modversion`
+      else
+        unset GPGRT_CONFIG
+      fi
+    fi
+  else
+    gpg_error_config_version=`$GPG_ERROR_CONFIG --version`
+  fi
+  if test "$GPG_ERROR_CONFIG" != "no"; then
     req_major=`echo $min_gpg_error_version | \
                sed 's/\([0-9]*\)\.\([0-9]*\)/\1/'`
     req_minor=`echo $min_gpg_error_version | \
                sed 's/\([0-9]*\)\.\([0-9]*\)/\2/'`
-    gpg_error_config_version=`$GPG_ERROR_CONFIG $gpg_error_config_args --version`
     major=`echo $gpg_error_config_version | \
                sed 's/\([0-9]*\)\.\([0-9]*\).*/\1/'`
     minor=`echo $gpg_error_config_version | \
@@ -21357,21 +21468,91 @@ $as_echo_n "checking for GPG Error - version >= $min_gpg_error_version... " >&6;
             fi
         fi
     fi
+    if test -z "$GPGRT_CONFIG" -a -n "$gpgrt_libdir"; then
+      if test "$major" -gt 1 -o "$major" -eq 1 -a "$minor" -ge 33; then
+        # Extract the first word of "gpgrt-config", so it can be a program name with args.
+set dummy gpgrt-config; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_GPGRT_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $GPGRT_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_GPGRT_CONFIG="$GPGRT_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_GPGRT_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
   fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_path_GPGRT_CONFIG" && ac_cv_path_GPGRT_CONFIG="no"
+  ;;
+esac
+fi
+GPGRT_CONFIG=$ac_cv_path_GPGRT_CONFIG
+if test -n "$GPGRT_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GPGRT_CONFIG" >&5
+$as_echo "$GPGRT_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+        if test "$GPGRT_CONFIG" = "no"; then
+          unset GPGRT_CONFIG
+        else
+          GPGRT_CONFIG="$GPGRT_CONFIG --libdir=$gpgrt_libdir"
+          if $GPGRT_CONFIG gpg-error >/dev/null 2>&1; then
+            GPG_ERROR_CONFIG="$GPGRT_CONFIG gpg-error"
+            { $as_echo "$as_me:${as_lineno-$LINENO}: Use gpgrt-config with $gpgrt_libdir as gpg-error-config" >&5
+$as_echo "$as_me: Use gpgrt-config with $gpgrt_libdir as gpg-error-config" >&6;}
+          else
+            unset GPGRT_CONFIG
+          fi
+        fi
+      fi
+    fi
+  fi
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GPG Error - version >= $min_gpg_error_version" >&5
+$as_echo_n "checking for GPG Error - version >= $min_gpg_error_version... " >&6; }
   if test $ok = yes; then
-    GPG_ERROR_CFLAGS=`$GPG_ERROR_CONFIG $gpg_error_config_args --cflags`
-    GPG_ERROR_LIBS=`$GPG_ERROR_CONFIG $gpg_error_config_args --libs`
-    GPG_ERROR_MT_CFLAGS=`$GPG_ERROR_CONFIG $gpg_error_config_args --mt --cflags 2>/dev/null`
-    GPG_ERROR_MT_LIBS=`$GPG_ERROR_CONFIG $gpg_error_config_args --mt --libs 2>/dev/null`
+    GPG_ERROR_CFLAGS=`$GPG_ERROR_CONFIG --cflags`
+    GPG_ERROR_LIBS=`$GPG_ERROR_CONFIG --libs`
+    if test -z "$GPGRT_CONFIG"; then
+      GPG_ERROR_MT_CFLAGS=`$GPG_ERROR_CONFIG --mt --cflags 2>/dev/null`
+      GPG_ERROR_MT_LIBS=`$GPG_ERROR_CONFIG --mt --libs 2>/dev/null`
+    else
+      GPG_ERROR_MT_CFLAGS=`$GPG_ERROR_CONFIG --variable=mtcflags 2>/dev/null`
+      GPG_ERROR_MT_CFLAGS="$GPG_ERROR_CFLAGS${GPG_ERROR_CFLAGS:+ }$GPG_ERROR_MT_CFLAGS"
+      GPG_ERROR_MT_LIBS=`$GPG_ERROR_CONFIG --variable=mtlibs 2>/dev/null`
+      GPG_ERROR_MT_LIBS="$GPG_ERROR_LIBS${GPG_ERROR_LIBS:+ }$GPG_ERROR_MT_LIBS"
+    fi
     { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes ($gpg_error_config_version)" >&5
 $as_echo "yes ($gpg_error_config_version)" >&6; }
     :
-    gpg_error_config_host=`$GPG_ERROR_CONFIG $gpg_error_config_args --host 2>/dev/null || echo none`
+    if test -z "$GPGRT_CONFIG"; then
+      gpg_error_config_host=`$GPG_ERROR_CONFIG --host 2>/dev/null || echo none`
+    else
+      gpg_error_config_host=`$GPG_ERROR_CONFIG --variable=host 2>/dev/null || echo none`
+    fi
     if test x"$gpg_error_config_host" != xnone ; then
       if test x"$gpg_error_config_host" != x"$host" ; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING:
 ***
-*** The config script $GPG_ERROR_CONFIG was
+*** The config script \"$GPG_ERROR_CONFIG\" was
 *** built for $gpg_error_config_host and thus may not match the
 *** used host $host.
 *** You may want to use the configure option --with-libgpg-error-prefix
@@ -21379,7 +21560,7 @@ $as_echo "yes ($gpg_error_config_version)" >&6; }
 ***" >&5
 $as_echo "$as_me: WARNING:
 ***
-*** The config script $GPG_ERROR_CONFIG was
+*** The config script \"$GPG_ERROR_CONFIG\" was
 *** built for $gpg_error_config_host and thus may not match the
 *** used host $host.
 *** You may want to use the configure option --with-libgpg-error-prefix
@@ -25689,12 +25870,28 @@ fi
 
 
 if test "$enable_fulldoc" = "yes"; then
-	DOXYGEN_INPUT="listdoc.h src gui plugins tools"
-        DOXYGEN_DEFINE=""
+    DOXYGEN_INPUT="listdoc.h src gui plugins tools"
+    DOXYGEN_DEFINE=""
+    DOXYGEN_GENERATE_QHP="NO"
+    DOXYGEN_QHG_LOCATION=""
+    DOXYGEN_QHP_NAMESPACE=de.aquamaniac.gwenhywfar-$GWENHYWFAR_VERSION_STRING
+    if which qhelpgenerator >/dev/null ; then
+        DOXYGEN_QHG_LOCATION=$(which qhelpgenerator)
+        DOXYGEN_GENERATE_QHP="YES"
+        USE_DOT=NO
+    elif which qhelpgenerator-qt5 >/dev/null ; then
+        DOXYGEN_QHG_LOCATION=$(which qhelpgenerator-qt5)
+        DOXYGEN_GENERATE_QHP="YES"
+        USE_DOT=NO
+    fi
 else
-	DOXYGEN_DEFINE="DOXYGEN_HIDE"
-	DOXYGEN_INPUT="listdoc.h gwenhywfar5"
+    DOXYGEN_DEFINE="DOXYGEN_HIDE"
+    DOXYGEN_INPUT="listdoc.h gwenhywfar5"
 fi
+
+
+
+
 
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $enable_fulldoc" >&5
@@ -26709,7 +26906,7 @@ cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1
 #
 # INIT-COMMANDS
 #
-AMDEP_TRUE="$AMDEP_TRUE" ac_aux_dir="$ac_aux_dir"
+AMDEP_TRUE="$AMDEP_TRUE" MAKE="${MAKE-make}"
 
 
 # The HP-UX ksh and POSIX shell print the target directory to stdout
@@ -27893,29 +28090,35 @@ $as_echo "$as_me: executing $ac_file commands" >&6;}
   # Older Autoconf quotes --file arguments for eval, but not when files
   # are listed without --file.  Let's play safe and only enable the eval
   # if we detect the quoting.
-  case $CONFIG_FILES in
-  *\'*) eval set x "$CONFIG_FILES" ;;
-  *)   set x $CONFIG_FILES ;;
-  esac
+  # TODO: see whether this extra hack can be removed once we start
+  # requiring Autoconf 2.70 or later.
+  case $CONFIG_FILES in #(
+  *\'*) :
+    eval set x "$CONFIG_FILES" ;; #(
+  *) :
+    set x $CONFIG_FILES ;; #(
+  *) :
+     ;;
+esac
   shift
-  for mf
+  # Used to flag and report bootstrapping failures.
+  am_rc=0
+  for am_mf
   do
     # Strip MF so we end up with the name of the file.
-    mf=`echo "$mf" | sed -e 's/:.*$//'`
-    # Check whether this is an Automake generated Makefile or not.
-    # We used to match only the files named 'Makefile.in', but
-    # some people rename them; so instead we look at the file content.
-    # Grep'ing the first line is not enough: some people post-process
-    # each Makefile.in and add a new line on top of each file to say so.
-    # Grep'ing the whole file is not good either: AIX grep has a line
+    am_mf=`$as_echo "$am_mf" | sed -e 's/:.*$//'`
+    # Check whether this is an Automake generated Makefile which includes
+    # dependency-tracking related rules and includes.
+    # Grep'ing the whole file directly is not great: AIX grep has a line
     # limit of 2048, but all sed's we know have understand at least 4000.
-    if sed -n 's,^#.*generated by automake.*,X,p' "$mf" | grep X >/dev/null 2>&1; then
-      dirpart=`$as_dirname -- "$mf" ||
-$as_expr X"$mf" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-	 X"$mf" : 'X\(//\)[^/]' \| \
-	 X"$mf" : 'X\(//\)$' \| \
-	 X"$mf" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X"$mf" |
+    sed -n 's,^am--depfiles:.*,X,p' "$am_mf" | grep X >/dev/null 2>&1 \
+      || continue
+    am_dirpart=`$as_dirname -- "$am_mf" ||
+$as_expr X"$am_mf" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 X"$am_mf" : 'X\(//\)[^/]' \| \
+	 X"$am_mf" : 'X\(//\)$' \| \
+	 X"$am_mf" : 'X\(/\)' \| . 2>/dev/null ||
+$as_echo X"$am_mf" |
     sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
 	    s//\1/
 	    q
@@ -27933,53 +28136,48 @@ $as_echo X"$mf" |
 	    q
 	  }
 	  s/.*/./; q'`
-    else
-      continue
-    fi
-    # Extract the definition of DEPDIR, am__include, and am__quote
-    # from the Makefile without running 'make'.
-    DEPDIR=`sed -n 's/^DEPDIR = //p' < "$mf"`
-    test -z "$DEPDIR" && continue
-    am__include=`sed -n 's/^am__include = //p' < "$mf"`
-    test -z "$am__include" && continue
-    am__quote=`sed -n 's/^am__quote = //p' < "$mf"`
-    # Find all dependency output files, they are included files with
-    # $(DEPDIR) in their names.  We invoke sed twice because it is the
-    # simplest approach to changing $(DEPDIR) to its actual value in the
-    # expansion.
-    for file in `sed -n "
-      s/^$am__include $am__quote\(.*(DEPDIR).*\)$am__quote"'$/\1/p' <"$mf" | \
-	 sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g'`; do
-      # Make sure the directory exists.
-      test -f "$dirpart/$file" && continue
-      fdir=`$as_dirname -- "$file" ||
-$as_expr X"$file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-	 X"$file" : 'X\(//\)[^/]' \| \
-	 X"$file" : 'X\(//\)$' \| \
-	 X"$file" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X"$file" |
-    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
+    am_filepart=`$as_basename -- "$am_mf" ||
+$as_expr X/"$am_mf" : '.*/\([^/][^/]*\)/*$' \| \
+	 X"$am_mf" : 'X\(//\)$' \| \
+	 X"$am_mf" : 'X\(/\)' \| . 2>/dev/null ||
+$as_echo X/"$am_mf" |
+    sed '/^.*\/\([^/][^/]*\)\/*$/{
 	    s//\1/
 	    q
 	  }
-	  /^X\(\/\/\)[^/].*/{
+	  /^X\/\(\/\/\)$/{
 	    s//\1/
 	    q
 	  }
-	  /^X\(\/\/\)$/{
-	    s//\1/
-	    q
-	  }
-	  /^X\(\/\).*/{
+	  /^X\/\(\/\).*/{
 	    s//\1/
 	    q
 	  }
 	  s/.*/./; q'`
-      as_dir=$dirpart/$fdir; as_fn_mkdir_p
-      # echo "creating $dirpart/$file"
-      echo '# dummy' > "$dirpart/$file"
-    done
+    { echo "$as_me:$LINENO: cd "$am_dirpart" \
+      && sed -e '/# am--include-marker/d' "$am_filepart" \
+        | $MAKE -f - am--depfiles" >&5
+   (cd "$am_dirpart" \
+      && sed -e '/# am--include-marker/d' "$am_filepart" \
+        | $MAKE -f - am--depfiles) >&5 2>&5
+   ac_status=$?
+   echo "$as_me:$LINENO: \$? = $ac_status" >&5
+   (exit $ac_status); } || am_rc=$?
   done
+  if test $am_rc -ne 0; then
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "Something went wrong bootstrapping makefile fragments
+    for automatic dependency tracking.  Try re-running configure with the
+    '--disable-dependency-tracking' option to at least be able to build
+    the package (albeit without support for automatic dependency tracking).
+See \`config.log' for more details" "$LINENO" 5; }
+  fi
+  { am_dirpart=; unset am_dirpart;}
+  { am_filepart=; unset am_filepart;}
+  { am_mf=; unset am_mf;}
+  { am_rc=; unset am_rc;}
+  rm -f conftest-deps.mk
 }
  ;;
     "libtool":C)

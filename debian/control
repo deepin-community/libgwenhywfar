@@ -4,6 +4,7 @@ Section: libs
 Maintainer: Micha Lenk <micha@debian.org>
 Uploaders: Henning Glawe <glaweh@debian.org>
 Build-Depends: debhelper-compat (= 13),
+ gwenhywfar-tools <cross>,
  libgcrypt20-dev, libgpg-error-dev,
  libgnutls28-dev,
  libxml2-dev,
@@ -14,7 +15,7 @@ Build-Depends: debhelper-compat (= 13),
  doxygen,
  asciidoctor,
  pkg-config
-Standards-Version: 4.6.0
+Standards-Version: 4.6.2
 Vcs-Browser: https://salsa.debian.org/aqbanking-team/pkg-libgwenhywfar
 Vcs-Git: https://salsa.debian.org/aqbanking-team/pkg-libgwenhywfar.git
 Homepage: https://www.aquamaniac.de/rdm/projects/gwenhywfar

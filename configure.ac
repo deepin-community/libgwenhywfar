@@ -28,8 +28,8 @@ AC_CONFIG_HEADERS([config.h])
 # versions
 #
 GWENHYWFAR_VERSION_MAJOR=5
-GWENHYWFAR_VERSION_MINOR=9
-GWENHYWFAR_VERSION_PATCHLEVEL=0
+GWENHYWFAR_VERSION_MINOR=10
+GWENHYWFAR_VERSION_PATCHLEVEL=2
 GWENHYWFAR_VERSION_BUILD=0
 dnl "stable", "rcX", "betaX", "cvs"
 GWENHYWFAR_VERSION_TAG="stable"
@@ -40,9 +40,9 @@ GWENHYWFAR_VERSION_TAG="stable"
 #
 # SO version for Gwenhywfar
 #
-GWENHYWFAR_SO_CURRENT="88"
-GWENHYWFAR_SO_AGE="9"
-GWENHYWFAR_SO_REVISION="0"
+GWENHYWFAR_SO_CURRENT="89"
+GWENHYWFAR_SO_AGE="10"
+GWENHYWFAR_SO_REVISION="2"
 GWENHYWFAR_SO_EFFECTIVE="`echo \$(($GWENHYWFAR_SO_CURRENT-$GWENHYWFAR_SO_AGE))`"
 
 
@@ -1202,14 +1202,30 @@ AC_ARG_ENABLE(full-doc,
   enable_fulldoc="no")
 
 if test "$enable_fulldoc" = "yes"; then
-	DOXYGEN_INPUT="listdoc.h src gui plugins tools"
-        DOXYGEN_DEFINE=""
+    DOXYGEN_INPUT="listdoc.h src gui plugins tools"
+    DOXYGEN_DEFINE=""
+    DOXYGEN_GENERATE_QHP="NO"
+    DOXYGEN_QHG_LOCATION=""
+    DOXYGEN_QHP_NAMESPACE=de.aquamaniac.gwenhywfar-$GWENHYWFAR_VERSION_STRING
+    if which qhelpgenerator >/dev/null ; then
+        DOXYGEN_QHG_LOCATION=$(which qhelpgenerator)
+        DOXYGEN_GENERATE_QHP="YES"
+        USE_DOT=NO
+    elif which qhelpgenerator-qt5 >/dev/null ; then
+        DOXYGEN_QHG_LOCATION=$(which qhelpgenerator-qt5)
+        DOXYGEN_GENERATE_QHP="YES"
+        USE_DOT=NO
+    fi
 else
-	DOXYGEN_DEFINE="DOXYGEN_HIDE"
-	DOXYGEN_INPUT="listdoc.h gwenhywfar5"
+    DOXYGEN_DEFINE="DOXYGEN_HIDE"
+    DOXYGEN_INPUT="listdoc.h gwenhywfar5"
 fi
+AC_SUBST(DOXYGEN_GENERATE_QHP)
+AC_SUBST(DOXYGEN_QHG_LOCATION)
+AC_SUBST(DOXYGEN_QHP_NAMESPACE)
 AC_SUBST(DOXYGEN_INPUT)
 AC_SUBST(DOXYGEN_DEFINE)
+AC_SUBST(USE_DOT)
 AC_MSG_RESULT($enable_fulldoc)
 
 

@@ -816,6 +816,13 @@ int GWEN_SyncIo_Tls_GetPeerCert(GWEN_SYNCIO *sio)
     errFlags|=GWEN_SSL_CERT_FLAGS_SIGNER_NOT_FOUND;
   }
 
+  if (status & GNUTLS_CERT_SIGNATURE_FAILURE) {
+    DBG_INFO(GWEN_LOGDOMAIN, "Certificate signature failure");
+    GWEN_Gui_ProgressLog(0, GWEN_LoggerLevel_Warning,
+                         I18N("Certificate signature failure"));
+    errFlags|=GWEN_SSL_CERT_FLAGS_INVALID;
+  }
+
   if (status & GNUTLS_CERT_INVALID) {
     DBG_INFO(GWEN_LOGDOMAIN, "Certificate is not trusted");
     GWEN_Gui_ProgressLog(0, GWEN_LoggerLevel_Warning,
@@ -1034,10 +1041,6 @@ int GWEN_SyncIo_Tls_GetPeerCert(GWEN_SYNCIO *sio)
       rv=gnutls_x509_crt_get_dn_by_oid(cert, GNUTLS_OID_X520_COMMON_NAME, 0, 0, buffer1, &size);
       if (rv==0) {
         GWEN_SslCertDescr_SetCommonName(certDescr, buffer1);
-        if (xio->hostName && strcasecmp(xio->hostName, buffer1)!=0) {
-          DBG_INFO(GWEN_LOGDOMAIN, "Owner of certificate does not match hostname");
-          errFlags|=GWEN_SSL_CERT_FLAGS_BAD_HOSTNAME;
-        }
       }
 
       size=sizeof(buffer1)-1;
