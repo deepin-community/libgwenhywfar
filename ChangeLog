@@ -1,4 +1,201 @@
 ------------------------------------------------------------------
+2023-07-27 23:50:49 +0200 Martin Preuss
+Prepared release 5.10.2.
+
+------------------------------------------------------------------
+2023-05-31 21:43:57 +0200 Martin Preuss
+Fixed a typo which caused APOBANK to reject a HTTP request (thanks to Anselm!!!)
+
+------------------------------------------------------------------
+2023-04-16 15:12:45 +0200 Micha Lenk
+Remove duplicate hostname check
+The hostname in the certificate is checked already a few lines above by calling
+gnutls_x509_crt_check_hostname(). No need to check it here again.
+
+This also fixes the bad hostname validation in cases where the used server name
+is only available in the SubjectAltName extension of the certificate, and not
+in its Distinguished Name (DN).
+
+Fixes #295.
+
+------------------------------------------------------------------
+2023-01-17 12:23:08 +0100 Thomas Baumgart
+Detect and report certificate signature failures
+
+------------------------------------------------------------------
+2022-08-10 22:54:19 +0200 Martin Preuss
+Released '5.10.1'
+
+------------------------------------------------------------------
+2022-08-10 22:53:51 +0200 Martin Preuss
+Prepared release 5.10.1
+
+------------------------------------------------------------------
+2022-02-24 22:40:02 +0100 Ralf Habacker
+gcttool: restore showing global options when using --help
+
+------------------------------------------------------------------
+2022-02-25 00:03:13 +0100 rhabacker
+gcttool: use GWEN_FUNCS shortcuts
+
+------------------------------------------------------------------
+2022-08-10 19:59:15 +0200 Martin Preuss
+Updated de.po (only line numbers changed).
+
+------------------------------------------------------------------
+2022-02-24 23:31:09 +0100 Ralf Habacker
+Add missing german translation for gcttool
+
+------------------------------------------------------------------
+2022-02-24 23:30:11 +0100 Ralf Habacker
+Add command tool 'msghack', which is not packaged at least on openSUSE
+
+------------------------------------------------------------------
+2022-01-04 10:32:23 +0100 Ralf Habacker
+Attempt to fix creating translations
+
+------------------------------------------------------------------
+2020-04-13 19:17:56 +0200 Ralf Habacker
+Generate Qt help file if --enable-full-doc is specified and qhelpgenerator(-qt5) is present
+
+------------------------------------------------------------------
+2020-04-13 19:06:10 +0200 Ralf Habacker
+Doxyfile.in: Raise limited of maximum number of dot graphs
+
+------------------------------------------------------------------
+2020-04-13 19:04:46 +0200 Ralf Habacker
+Doxyfile.in: Remove unsuppported font
+
+------------------------------------------------------------------
+2022-08-02 22:01:53 +0200 Martin Preuss
+Logger: Also accept correct spelling "verbose" as argument.
+The string "verbous" is wrong, but changing it to the correct spelling
+would make the current version of gwen incompatible with previous versions.
+
+However, the function GWEN_Logger_Name2Level() is an interface to the user,
+so we should at least accept the correct spelling.
+
+------------------------------------------------------------------
+2022-07-31 15:36:42 +0200 Martin Preuss
+Prepared release 5.9.10.
+
+------------------------------------------------------------------
+2022-07-29 23:05:05 +0200 Martin Preuss
+Added more tests for GWEN_DATE.
+
+------------------------------------------------------------------
+2022-07-29 23:04:49 +0200 Martin Preuss
+GWEN_DATE: Added more checks for invalid dates.
+Fixes a bug accepting invalid DAY components of a gregorian date
+(e.g. 29th Feb in non-leap years or 31st Apr of any year).
+
+------------------------------------------------------------------
+2022-07-21 18:29:29 +0200 Martin Preuss
+DEBUG macros: Fix compiler warnings.
+We use snprintf() exactly because it truncates too long text...
+Anyway: These changes remove the gcc warnings about truncation.
+Also improved readabilty.
+
+------------------------------------------------------------------
+2022-04-17 15:19:33 +0200 Martin Preuss
+Added TODO entry.
+
+------------------------------------------------------------------
+2022-04-17 15:19:25 +0200 Martin Preuss
+Makefile: Remove GTK2 from target "mp".
+
+------------------------------------------------------------------
+2022-02-16 12:37:32 +0100 Martin Preuss
+src/base/funcs: Uppercase macros.
+
+------------------------------------------------------------------
+2022-02-16 12:25:36 +0100 Ralf Habacker
+Add shortcuts to GWEN_Func_Entry macros
+
+------------------------------------------------------------------
+2022-02-16 12:24:58 +0100 Ralf Habacker
+Convert some GWEN_FUNC_... macros to real functions
+
+------------------------------------------------------------------
+2022-02-16 10:24:26 +0100 Martin Preuss
+gct-tool: Added help strings for some functions.
+
+------------------------------------------------------------------
+2022-02-16 10:19:50 +0100 Martin Preuss
+Make output a bit more compact.
+
+------------------------------------------------------------------
+2022-02-16 10:17:12 +0100 Martin Preuss
+Adjusted style.
+
+------------------------------------------------------------------
+2022-02-16 10:15:50 +0100 Martin Preuss
+Cleaned up header.
+
+------------------------------------------------------------------
+2022-02-16 10:07:53 +0100 Martin Preuss
+Fixes of some compiler warnings, added missing includes.
+
+------------------------------------------------------------------
+2022-01-03 16:20:09 +0100 Ralf Habacker
+Refactor gcttool to use GWEN_Funcs_xxx functions
+
+------------------------------------------------------------------
+2022-01-04 11:04:45 +0100 Ralf Habacker
+Refactor gwentest to use GWEN_Funcs_xxx functions
+
+------------------------------------------------------------------
+2022-01-03 16:07:59 +0100 Ralf Habacker
+Add GWEN_Funcs_xxx functions
+These functions provide a common way to add tests and commands
+for command line applications.
+
+Since available commands/tests have to be included in the
+corresponding structure, it is guaranteed that they are
+also available in the help and one can immediately see
+if descriptions are still missing.
+
+------------------------------------------------------------------
+2022-02-16 08:59:30 +0100 Ralf Habacker
+Fix warning "dialog.c:695: Widget [storePasswordCheck] not found"
+The mentioned widget is only available if it has not been removed in
+GWEN_DlgInput_new() has been removed. To check this state, a new input
+dialog attribute `storePasswordCheckEnabled` has been added and used
+in GWEN_DlgInput_Fini().
+
+Fixes bug #251
+
+------------------------------------------------------------------
+2022-02-16 00:51:11 +0100 Martin Preuss
+GUI: Changed color of info text in progress dialog to "darkgreen".
+"green" is hardly readable...
+
+------------------------------------------------------------------
+2021-12-31 01:45:12 +0100 Ralf Habacker
+gwentest: add missing test 'pw5'
+
+------------------------------------------------------------------
+2021-12-31 01:28:33 +0100 Ralf Habacker
+gwentest: display of all available tests corrected
+Fixes bug #254
+
+------------------------------------------------------------------
+2022-02-15 18:30:05 +0100 Martin Preuss
+Merge branch 'rel-5.9.0'
+
+------------------------------------------------------------------
+2022-02-15 17:08:21 +0100 Martin Preuss
+Prepared release 5.9.0.
+
+------------------------------------------------------------------
+2022-02-06 21:43:15 +0100 Martin Preuss
+gwbuild: Allow for "install" in <writeFile> elements.
+
+------------------------------------------------------------------
+2022-02-05 00:26:08 +0100 Martin Preuss
+Decreased verbosity.
+
+------------------------------------------------------------------
 2022-02-03 21:23:35 +0100 Martin Preuss
 Fox16 dialog: Improved handling of setIntProperty() in lists.
 
@@ -312,203 +509,3 @@ gwenbuild: Cleanup _setupOutFiles().
 ------------------------------------------------------------------
 2021-09-30 11:15:54 +0200 Martin Preuss
 gwenbuild: Added some "static" decls.
-
-------------------------------------------------------------------
-2021-09-30 11:11:13 +0200 Martin Preuss
-gwenbuild: Cleanup function GWB_ParseBuildFiles().
-
-------------------------------------------------------------------
-2021-09-30 01:04:57 +0200 Martin Preuss
-Gwenbuild: Cleanup function _parseVersions().
-Improves readability.
-
-------------------------------------------------------------------
-2021-09-30 01:04:26 +0200 Martin Preuss
-Changed mailinglist project name for aqbanking-devel in README.
-
-------------------------------------------------------------------
-2021-09-30 01:02:57 +0200 Martin Preuss
-Gwenbuild: Fixed some typos.
-
-------------------------------------------------------------------
-2021-09-30 00:17:15 +0200 Martin Preuss
-Cleanup function _parseWriteFile().
-Reuse code, split big function into smaller ones.
-
-------------------------------------------------------------------
-2021-09-29 23:50:25 +0200 Martin Preuss
-Cleanup function GWB_Parser_ReadBuildFile().
-Now function should be longer than a screen page ;-)
-
-------------------------------------------------------------------
-2021-09-29 23:14:28 +0200 Christian Stimming
-Windows compatibility: Ignore signal functions and symbols on windows
-
-------------------------------------------------------------------
-2021-09-29 23:14:03 +0200 Christian Stimming
-Windows compatibility: Handle symlinks only on non-windows
-
-------------------------------------------------------------------
-2021-09-29 23:13:26 +0200 Christian Stimming
-Windows compatibility: Use GWEN_Text_strndup wrapper
-
-------------------------------------------------------------------
-2021-09-29 23:13:07 +0200 Christian Stimming
-Windows compatibility: Use stat instead of lstat on windows
-
-------------------------------------------------------------------
-2021-09-25 18:24:01 +0200 Martin Preuss
-GwenBuild: Build "tm2builder" targets first if none specified.
-Source files generated from typemaker2 type definition files in most cases
-need to be generated before anything else. Therefore we prioritize those
-builders if no specific builder is requested on the command line.
-
-If a specific builder is given on the command line then only builders of that
-given type are run, so in that case the behaviour is not changed.
-
-------------------------------------------------------------------
-2021-09-25 18:20:39 +0200 Martin Preuss
-Gwenbuild: Added some template/example files.
-- convlib.tmpl: example for building convenience library targets
-- module.tmpl: example for building plugin modules
-
-------------------------------------------------------------------
-2021-09-25 18:19:03 +0200 Martin Preuss
-Gwenbuild: Add var GWBUILD_SYSTEMTYPE(posix, windows).
-This can be used to determine the base type of the target operating system
-("windows" or "posix").
-
-------------------------------------------------------------------
-2021-09-25 14:51:58 +0200 Martin Preuss
-Released 5.7.3
-
-------------------------------------------------------------------
-2021-09-25 14:47:07 +0200 Martin Preuss
-Prepared release 5.7.3.
-
-------------------------------------------------------------------
-2021-09-25 00:04:57 +0200 Martin Preuss
-gwenbuild: Decreased verbosity.
-
-------------------------------------------------------------------
-2021-09-24 23:59:30 +0200 Martin Preuss
-gwenbuild: Improved version handling.
-- add "version" attribute to "<project>" element for simplification
-- improved autotools compatibility
-  - create var and define for "PACKAGE"
-  - create var and define for "VERSION"
-
-------------------------------------------------------------------
-2021-09-24 22:32:23 +0200 Martin Preuss
-Incremented version number.
-
-------------------------------------------------------------------
-2021-09-24 22:32:12 +0200 Martin Preuss
-gwenbuild: Setup context variables in topbuilddir.
-
-------------------------------------------------------------------
-2021-09-24 15:19:52 +0200 Martin Preuss
-gwenbuild: On error wait for running jobs to finish instead of killing them.
-If a job error occurs (e.g.compilation error) let the other jobs still
-finish instead of killing them. That way at least those jobs can work in
-an orderly fashion.
-
-Jobs are now only killed if they still running after waiting for about 10s
-to finish.
-
-------------------------------------------------------------------
-2021-09-24 15:03:06 +0200 Martin Preuss
-Fixed bug in GWB_Parser_ReplaceVarsBetweenAtSigns().
-Now also accepts valid use of AT sign (e.g. email adresses, doxygen tags).
-
-------------------------------------------------------------------
-2021-09-24 15:02:03 +0200 Martin Preuss
-Decreased verbosity.
-
-------------------------------------------------------------------
-2021-09-23 23:46:12 +0200 Martin Preuss
-Don't build gwenbuild on Windows.
-
-------------------------------------------------------------------
-2021-09-21 15:06:34 +0200 Micha Lenk
-i18n: Update German translation
-
-------------------------------------------------------------------
-2021-09-21 14:54:51 +0200 Micha Lenk
-Several spelling fixes
-
-------------------------------------------------------------------
-2021-09-18 17:43:47 +0200 Martin Preuss
-Release 5.7.2.
-
-------------------------------------------------------------------
-2021-09-18 17:13:54 +0200 Martin Preuss
-Prepared release 5.7.2.
-
-------------------------------------------------------------------
-2021-09-18 17:12:37 +0200 Martin Preuss
-CryptToken: Fixed a problem (callers rely on the return value of GWEN_Crypt_Token_BeginEnterPin !=0).
-
-------------------------------------------------------------------
-2021-09-11 19:23:37 +0200 Martin Preuss
-Don't use deprecated functions.
-
-------------------------------------------------------------------
-2021-09-11 19:23:16 +0200 Martin Preuss
-Marked GWEN_Gui_ShowBox() and GWEN_Gui_HideBox() deprecated.
-
-------------------------------------------------------------------
-2021-09-11 19:22:48 +0200 Martin Preuss
-Renamed def "DEPRECATED" to "GWEN_DEPRECATED".
-
-------------------------------------------------------------------
-2021-09-11 19:00:13 +0200 Martin Preuss
-CryptToken: No longer use GWEN_Gui_ShowBox() and GWEN_Gui_HideBox().
-Those GUI functions need the GUI to run in the background which doesn't work
-well in most apps where the program code runs inside the same thread as the
-GUI code.
-Therefore sometimes dialog boxes aren't correctly refreshed or shown on
-some platforms.
-
-A message in the log window seems to be the best and simplest solution to
-the surprising complexity of the problem.
-
-------------------------------------------------------------------
-2021-09-11 18:14:25 +0200 Martin Preuss
-ctplugin: Simplified code (esp. use fn GWEN_Gui_ProgressLog2).
-
-------------------------------------------------------------------
-2021-09-10 16:32:12 +0200 Martin Preuss
-Released 5.7.1
-
-------------------------------------------------------------------
-2021-09-10 14:10:13 +0200 Martin Preuss
-Prepared release 5.7.1.
-
-------------------------------------------------------------------
-2021-09-05 19:33:35 +0200 Martin Preuss
-GUI: Remove bad pin also from password cache.
-
-------------------------------------------------------------------
-2021-09-02 16:32:44 +0200 Martin Preuss
-TODO: Added entry.
-
-------------------------------------------------------------------
-2021-09-02 16:32:32 +0200 Martin Preuss
-tm2: Add types uint16_t and uint16_t_array.
-
-------------------------------------------------------------------
-2020-09-10 01:14:16 +0200 Ralf Habacker
-On Mingw use '/' as dir separator to avoid compile errors
-This fixes the following error:
-   transaction.c:12:10: fatal error: .\..._p.h: No such file or directory
-
-------------------------------------------------------------------
-2021-04-17 18:46:26 +0200 Ralf Habacker
-Fix finding of ca-bundle.crt on Windows
-In case of not using system certificates the bundled certificate should be
-searched and added.
-
-------------------------------------------------------------------
-2021-06-25 02:15:51 +0200 Martin Preuss
-gwenbuild: Add help entry "-d".

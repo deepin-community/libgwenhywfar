@@ -93,6 +93,7 @@
 #endif
 
 #include "buffer-t.h"
+#include "funcs.h"
 #include "simpleptrlist-t.h"
 #include "idlist64-t.h"
 
@@ -1478,6 +1479,83 @@ int testTimeFromString(int argc, char **argv)
   return 0;
 }
 
+
+
+int testDateFromString(int argc, char **argv)
+{
+  GWEN_DATE *dt;
+  const char *s;
+  const char *tmpl;
+  GWEN_BUFFER *tbuf;
+
+  if (argc>3)
+    tmpl=argv[3];
+  else
+    tmpl="YYYYMMDD";
+  if (argc<3) {
+    fprintf(stderr, "Arguments needed: %s %s DATE [TEMPLATE]\n",
+	    argv[0], argv[1]);
+    return 1;
+  }
+
+  s=argv[2];
+
+  dt=GWEN_Date_fromStringWithTemplate(s, tmpl);
+  if (!dt) {
+    fprintf(stderr, "Could not convert string to date.\n");
+    return 2;
+  }
+
+  tbuf=GWEN_Buffer_new(0, 256, 0, 1);
+
+  if (GWEN_Date_toStringWithTemplate(dt, "YYYY/MM/DD", tbuf)) {
+    fprintf(stderr, "Could not convert date to string.\n");
+    return 2;
+  }
+  fprintf(stdout, "date \"%s\": %s\n",
+	  s, GWEN_Buffer_GetStart(tbuf));
+
+  return 0;
+}
+
+
+
+int testDateAddDays(int argc, char **argv)
+{
+  GWEN_DATE *dt;
+  const char *s;
+  int toAdd=1;
+  GWEN_BUFFER *tbuf;
+
+  if (argc>3) {
+    if (1!=sscanf(argv[3], "%d", &toAdd)) {
+    }
+  }
+  if (argc<3) {
+    fprintf(stderr, "Arguments needed: %s %s DATE [DAYS_TO_ADD]\n", argv[0], argv[1]);
+    return 1;
+  }
+
+  s=argv[2];
+
+  dt=GWEN_Date_fromStringWithTemplate(s, "YYYYMMDD");
+  if (!dt) {
+    fprintf(stderr, "Could not convert string to date.\n");
+    return 2;
+  }
+
+  GWEN_Date_AddDays(dt, toAdd);
+
+  tbuf=GWEN_Buffer_new(0, 256, 0, 1);
+  if (GWEN_Date_toStringWithTemplate(dt, "YYYY/MM/DD", tbuf)) {
+    fprintf(stderr, "Could not convert date to string.\n");
+    return 2;
+  }
+  fprintf(stdout, "date \"%s\" + %d days: %s\n",
+	  s, toAdd, GWEN_Buffer_GetStart(tbuf));
+
+  return 0;
+}
 
 
 int testOldDbImport(void)
@@ -3174,7 +3252,7 @@ static void check_generated_rsa_key(gcry_sexp_t key, unsigned long expected_e)
 
 
 
-static void check_rsa_keys(void)
+static int check_rsa_keys(void)
 {
   gcry_sexp_t keyparm, key;
   int rc;
@@ -3262,7 +3340,7 @@ static void check_rsa_keys(void)
 
   check_generated_rsa_key(key, 65537);
   gcry_sexp_release(key);
-
+  return 0;
 }
 
 
@@ -6467,272 +6545,145 @@ int testEnviron(void)
   return 0;
 }
 
+const GWEN_FUNCS tests[] = {
+  GWEN_FUNCS_ENTRY("3rsa", testCrypt3Rsa),
+  GWEN_FUNCS_ENTRY("3rsa2", testCrypt3Rsa2),
+  GWEN_FUNCS_ENTRY("3rsa3", testCrypt3Rsa3),
+  GWEN_FUNCS_ENTRY("3rsa4", testCrypt3Rsa4),
+  GWEN_FUNCS_ENTRY("822", testRfc822Import),
+  GWEN_FUNCS_ENTRY("822x", testRfc822Export),
+  GWEN_FUNCS_ENTRY_ARGS("base64", testBase64),
+  GWEN_FUNCS_ENTRY_ARGS("base64_2", testBase64_2),
+  GWEN_FUNCS_ENTRY("buf2", testBuffer2),
+  GWEN_FUNCS_ENTRY("cryptmgr1", testCryptMgr1),
+  GWEN_FUNCS_ENTRY("cryptmgr2", testCryptMgr2),
+  GWEN_FUNCS_ENTRY("cryptmgr3", testCryptMgr3),
+  GWEN_FUNCS_ENTRY("csv", testCSV),
+  GWEN_FUNCS_ENTRY("date1", testDate1),
+  GWEN_FUNCS_ENTRY("date2", testDate2),
+  GWEN_FUNCS_ENTRY_ARGS("date3", testDateFromString),
+  GWEN_FUNCS_ENTRY_ARGS("date4", testDateAddDays),
+  GWEN_FUNCS_ENTRY("db", testDB),
+  GWEN_FUNCS_ENTRY("db2", testDB2),
+  GWEN_FUNCS_ENTRY("dbfile", testDBfile),
+  GWEN_FUNCS_ENTRY_ARGS("dbfile2", testDBfile2),
+  GWEN_FUNCS_ENTRY_ARGS("dbfile3", testDBfile3),
+  GWEN_FUNCS_ENTRY("dbfile4", testDBfile4),
+  GWEN_FUNCS_ENTRY("des", testDES),
+  GWEN_FUNCS_ENTRY("des2", testDES2),
+  GWEN_FUNCS_ENTRY("des3", testDES3),
+  GWEN_FUNCS_ENTRY_ARGS("des4", testDES4),
+  GWEN_FUNCS_ENTRY("des5", testDES5),
+  GWEN_FUNCS_ENTRY_ARGS("des6", testDES6),
+  GWEN_FUNCS_ENTRY_ARGS("dlg", testDialog),
+  GWEN_FUNCS_ENTRY("env", testEnviron),
+  GWEN_FUNCS_ENTRY("floatdouble", testFloatDouble),
+  GWEN_FUNCS_ENTRY_ARGS("fslock", testFsLock),
+  GWEN_FUNCS_ENTRY_ARGS("fslock2", testFsLock2),
+  GWEN_FUNCS_ENTRY("gtls", testGnutls),
+  GWEN_FUNCS_ENTRY_ARGS("hashtree", testHashTree),
+  GWEN_FUNCS_ENTRY_ARGS("http1", testHttp1),
+  GWEN_FUNCS_ENTRY_ARGS("http2", testHttp2),
+  GWEN_FUNCS_ENTRY_ARGS("httpsServer", testHttpsServer),
+  GWEN_FUNCS_ENTRY_ARGS("httpsession", testHttpSession),
+  GWEN_FUNCS_ENTRY_ARGS("list", testListMsg),
+  GWEN_FUNCS_ENTRY("map", testMap),
+  GWEN_FUNCS_ENTRY("map2", testMap2),
+  GWEN_FUNCS_ENTRY("map3", testMap3),
+  GWEN_FUNCS_ENTRY("map4", testMap4),
+  GWEN_FUNCS_ENTRY("mem", testMem),
+  GWEN_FUNCS_ENTRY_ARGS("modules", testModules),
+  GWEN_FUNCS_ENTRY("msg", testMsg),
+  GWEN_FUNCS_ENTRY_ARGS("newxml", testNewXML),
+  GWEN_FUNCS_ENTRY("olddb", testOldDbImport),
+  GWEN_FUNCS_ENTRY_ARGS("option", testOptions),
+  GWEN_FUNCS_ENTRY("params1", testParams1),
+  GWEN_FUNCS_ENTRY("params2", testParams2),
+  GWEN_FUNCS_ENTRY("params3", testParams3),
+  GWEN_FUNCS_ENTRY_ARGS("parity", testParity),
+  GWEN_FUNCS_ENTRY_ARGS("process", testProcess),
+  GWEN_FUNCS_ENTRY("process2", testProcess2),
+  GWEN_FUNCS_ENTRY("pss1", testPss1),
+  GWEN_FUNCS_ENTRY("pss2", testPss2),
+  GWEN_FUNCS_ENTRY("pss3", testPss3),
+  GWEN_FUNCS_ENTRY("ptr", testPtr),
+  GWEN_FUNCS_ENTRY("pw1", testPasswordStore1),
+  GWEN_FUNCS_ENTRY("pw2", testPasswordStore2),
+  GWEN_FUNCS_ENTRY("pw3", testPasswordStore3),
+  GWEN_FUNCS_ENTRY_ARGS("pw4", testPasswordStore4),
+  GWEN_FUNCS_ENTRY_ARGS("pw5", testPasswordStore5),
+  GWEN_FUNCS_ENTRY("rsa", check_rsa_keys),
+  GWEN_FUNCS_ENTRY_ARGS("sar1", testSar1),
+  GWEN_FUNCS_ENTRY_ARGS("sar2", testSar2),
+  GWEN_FUNCS_ENTRY_ARGS("sar3", testSar3),
+  GWEN_FUNCS_ENTRY_ARGS("sar4", testSar4),
+  GWEN_FUNCS_ENTRY_ARGS("setBinDataDb", testSetBinDataDb),
+  GWEN_FUNCS_ENTRY("signals1", testSignals1),
+  GWEN_FUNCS_ENTRY("signals2", testSignals2),
+  GWEN_FUNCS_ENTRY("signals3", testSignals3),
+  GWEN_FUNCS_ENTRY_ARGS("sio1", testSyncIo1),
+  GWEN_FUNCS_ENTRY_ARGS("sio2", testSyncIo2),
+  GWEN_FUNCS_ENTRY_ARGS("sio3", testSyncIo3),
+  GWEN_FUNCS_ENTRY("sl", testStringListFromString),
+  GWEN_FUNCS_ENTRY("sl2", testStringList2),
+  GWEN_FUNCS_ENTRY("sn", testSnprintf),
+  GWEN_FUNCS_ENTRY_ARGS("socketServer", testSocketServer),
+  GWEN_FUNCS_ENTRY_ARGS("sort", testSort),
+  GWEN_FUNCS_ENTRY("threads1", testThreads1),
+  GWEN_FUNCS_ENTRY("threads2", testThreads2),
+  GWEN_FUNCS_ENTRY("time", testTime),
+  GWEN_FUNCS_ENTRY_ARGS("time1", testTimeToString),
+  GWEN_FUNCS_ENTRY_ARGS("time2", testTimeFromString),
+  GWEN_FUNCS_ENTRY_ARGS("tlsServer", testTlsServer),
+  GWEN_FUNCS_ENTRY("tresor1", testTresor1),
+  GWEN_FUNCS_ENTRY("tresor2", testTresor2),
+  GWEN_FUNCS_ENTRY_ARGS("url", testUrl),
+  GWEN_FUNCS_ENTRY_ARGS("xml", testXML),
+  GWEN_FUNCS_ENTRY_ARGS("xml2", testXML2),
+  GWEN_FUNCS_ENTRY_ARGS("xml3", testXML3),
+  GWEN_FUNCS_ENTRY_ARGS("xml4", testXML4),
+  GWEN_FUNCS_ENTRY("xml5", testXML5),
+  GWEN_FUNCS_ENTRY_ARGS("xml6", testXML6),
+  GWEN_FUNCS_ENTRY_ARGS("xml7", testXML7),
+  GWEN_FUNCS_ENTRY_ARGS("xml8", testXML8),
+  GWEN_FUNCS_ENTRY("xmldb1", testXmlDbExport),
+  GWEN_FUNCS_ENTRY("xmldb2", testXmlDbImport),
+  GWEN_FUNCS_ENTRY_END()
+};
 
+static void print_usage(const char *app_name)
+{
+    fprintf(stderr, "Usage: %s <test>\n  where <test> is one of", app_name);
+    GWEN_Funcs_Usage(tests);
+}
 
 int main(int argc, char **argv)
 {
+  const GWEN_FUNCS *test;
   int rv;
 
   GWEN_Init();
   GWEN_Logger_SetLevel(0, GWEN_LoggerLevel_Debug);
   //GWEN_Logger_SetLevel(GWEN_LOGDOMAIN, GWEN_LoggerLevel_Info);
 
-  if (argc<2) {
-    fprintf(stderr,
-            "Usage: %s <test>\n  where <test> is one of db, dbfile, dbfile2, list, key, mkkey, cpkey, xml, xml2, sn, ssl, accept, connect\n",
-            argv[0]);
+  if (argc < 2) {
+    print_usage(argv[0]);
     GWEN_Fini();
     return 1;
   }
 
-
-  if (strcasecmp(argv[1], "dbfile")==0)
-    rv=testDBfile();
-  else if (strcasecmp(argv[1], "des")==0)
-    rv=testDES();
-  else if (strcasecmp(argv[1], "des2")==0)
-    rv=testDES2();
-  else if (strcasecmp(argv[1], "des3")==0)
-    rv=testDES3();
-  else if (strcasecmp(argv[1], "des4")==0)
-    rv=testDES4(argc, argv);
-  else if (strcasecmp(argv[1], "des5")==0) {
-    rv=testDES5();
-  }
-  else if (strcasecmp(argv[1], "des6")==0) {
-    rv=testDES6(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "db")==0)
-    rv=testDB();
-  else if (strcasecmp(argv[1], "db2")==0)
-    rv=testDB2();
-  else if (strcasecmp(argv[1], "dbfile2")==0)
-    rv=testDBfile2(argc, argv);
-  else if (strcasecmp(argv[1], "dbfile3")==0)
-    rv=testDBfile3(argc, argv);
-  else if (strcasecmp(argv[1], "dbfile4")==0)
-    rv=testDBfile4();
-  else if (strcasecmp(argv[1], "msg")==0)
-    rv=testMsg();
-  else if (strcasecmp(argv[1], "list")==0)
-    rv=testListMsg(argc, argv);
-  else if (strcasecmp(argv[1], "xml")==0)
-    rv=testXML(argc, argv);
-  else if (strcasecmp(argv[1], "xml2")==0)
-    rv=testXML2(argc, argv);
-  else if (strcasecmp(argv[1], "xml3")==0)
-    rv=testXML3(argc, argv);
-  else if (strcasecmp(argv[1], "xml4")==0)
-    rv=testXML4(argc, argv);
-  else if (strcasecmp(argv[1], "xml5")==0)
-    rv=testXML5();
-  else if (strcasecmp(argv[1], "xml6")==0)
-    rv=testXML6(argc, argv);
-  else if (strcasecmp(argv[1], "xml7")==0)
-    rv=testXML7(argc, argv);
-  else if (strcasecmp(argv[1], "xml8")==0)
-    rv=testXML8(argc, argv);
-  else if (strcasecmp(argv[1], "sn")==0)
-    rv=testSnprintf();
-  else if (strcasecmp(argv[1], "process")==0)
-    rv=testProcess(argc, argv);
-  else if (strcasecmp(argv[1], "process2")==0)
-    rv=testProcess2();
-  else if (strcasecmp(argv[1], "option")==0)
-    rv=testOptions(argc, argv);
-  else if (strcasecmp(argv[1], "base64")==0)
-    rv=testBase64(argc, argv);
-  else if (strcasecmp(argv[1], "base64_2")==0)
-    rv=testBase64_2(argc, argv);
-  else if (strcasecmp(argv[1], "time")==0)
-    rv=testTime();
-  else if (strcasecmp(argv[1], "time2")==0)
-    rv=testTimeFromString(argc, argv);
-  else if (strcasecmp(argv[1], "time1")==0)
-    rv=testTimeToString(argc, argv);
-  else if (strcasecmp(argv[1], "olddb")==0)
-    rv=testOldDbImport();
-  else if (strcasecmp(argv[1], "822")==0)
-    rv=testRfc822Import();
-  else if (strcasecmp(argv[1], "822x")==0)
-    rv=testRfc822Export();
-  else if (strcasecmp(argv[1], "xmldb1")==0)
-    rv=testXmlDbExport();
-  else if (strcasecmp(argv[1], "xmldb2")==0)
-    rv=testXmlDbImport();
-  else if (strcasecmp(argv[1], "fslock")==0)
-    rv=testFsLock(argc, argv);
-  else if (strcasecmp(argv[1], "fslock2")==0)
-    rv=testFsLock2(argc, argv);
-  else if (strcasecmp(argv[1], "ptr")==0)
-    rv=testPtr();
-  else if (strcasecmp(argv[1], "sl2")==0)
-    rv=testStringList2();
-  else if (strcasecmp(argv[1], "sort")==0)
-    rv=testSort(argc, argv);
-  else if (strcasecmp(argv[1], "buf2")==0)
-    rv=testBuffer2();
-  else if (strcasecmp(argv[1], "mem")==0)
-    rv=testMem();
-  else if (strcasecmp(argv[1], "floatdouble")==0)
-    rv=testFloatDouble();
-  else if (strcasecmp(argv[1], "map")==0)
-    rv=testMap();
-  else if (strcasecmp(argv[1], "map2")==0)
-    rv=testMap2();
-  else if (strcasecmp(argv[1], "map3")==0)
-    rv=testMap3();
-  else if (strcasecmp(argv[1], "map4")==0)
-    rv=testMap4();
-  else if (strcasecmp(argv[1], "signals1")==0)
-    rv=testSignals1();
-  else if (strcasecmp(argv[1], "signals2")==0)
-    rv=testSignals2();
-  else if (strcasecmp(argv[1], "signals3")==0)
-    rv=testSignals3();
-  else if (strcasecmp(argv[1], "url")==0)
-    rv=testUrl(argc, argv);
-  else if (strcasecmp(argv[1], "newxml")==0)
-    rv=testNewXML(argc, argv);
-  else if (strcasecmp(argv[1], "3rsa")==0)
-    rv=testCrypt3Rsa();
-  else if (strcasecmp(argv[1], "3rsa2")==0)
-    rv=testCrypt3Rsa2();
-  else if (strcasecmp(argv[1], "3rsa3")==0)
-    rv=testCrypt3Rsa3();
-  else if (strcasecmp(argv[1], "3rsa4")==0)
-    rv=testCrypt3Rsa4();
-  else if (strcasecmp(argv[1], "gtls")==0)
-    rv=testGnutls();
-  else if (strcasecmp(argv[1], "httpsession")==0)
-    rv=testHttpSession(argc, argv);
-  else if (strcasecmp(argv[1], "rsa")==0) {
-    check_rsa_keys();
-    rv=0;
-  }
-  else if (strcasecmp(argv[1], "cryptmgr1")==0) {
-    rv=testCryptMgr1();
-  }
-  else if (strcasecmp(argv[1], "cryptmgr2")==0) {
-    rv=testCryptMgr2();
-  }
-  else if (strcasecmp(argv[1], "cryptmgr3")==0) {
-    rv=testCryptMgr3();
-  }
-  else if (strcasecmp(argv[1], "pss1")==0) {
-    rv=testPss1();
-  }
-  else if (strcasecmp(argv[1], "pss2")==0) {
-    rv=testPss2();
-  }
-  else if (strcasecmp(argv[1], "dlg")==0) {
-    rv=testDialog(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "sio1")==0) {
-    rv=testSyncIo1(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "sio2")==0) {
-    rv=testSyncIo2(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "sio3")==0) {
-    rv=testSyncIo3(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "http1")==0) {
-    rv=testHttp1(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "http2")==0) {
-    rv=testHttp2(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "tresor1")==0) {
-    rv=testTresor1();
-  }
-  else if (strcasecmp(argv[1], "tresor2")==0) {
-    rv=testTresor2();
-  }
-  else if (strcasecmp(argv[1], "hashtree")==0) {
-    rv=testHashTree(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "date1")==0) {
-    rv=testDate1();
-  }
-  else if (strcasecmp(argv[1], "date2")==0) {
-    rv=testDate2();
-  }
-  else if (strcasecmp(argv[1], "sar1")==0) {
-    rv=testSar1(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "sar2")==0) {
-    rv=testSar2(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "sar3")==0) {
-    rv=testSar3(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "sar4")==0) {
-    rv=testSar4(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "sl")==0) {
-    rv=testStringListFromString();
-  }
-  else if (strcasecmp(argv[1], "pw1")==0) {
-    rv=testPasswordStore1();
-  }
-  else if (strcasecmp(argv[1], "pw2")==0) {
-    rv=testPasswordStore2();
-  }
-  else if (strcasecmp(argv[1], "pw3")==0) {
-    rv=testPasswordStore3();
-  }
-  else if (strcasecmp(argv[1], "pw4")==0) {
-    rv=testPasswordStore4(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "csv")==0) {
-    rv=testCSV();
-  }
-  else if (strcasecmp(argv[1], "params1")==0) {
-    rv=testParams1();
-  }
-  else if (strcasecmp(argv[1], "params2")==0) {
-    rv=testParams2();
-  }
-  else if (strcasecmp(argv[1], "params3")==0) {
-    rv=testParams3();
-  }
-  else if (strcasecmp(argv[1], "socketServer")==0) {
-    rv=testSocketServer(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "tlsServer")==0) {
-    rv=testTlsServer(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "httpsServer")==0) {
-    rv=testHttpsServer(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "parity")==0) {
-    rv=testParity(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "modules")==0) {
-    rv=testModules(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "pss3")==0) {
-    rv=testPss3();
-  }
-  else if (strcasecmp(argv[1], "threads1")==0) {
-    rv=testThreads1();
-  }
-  else if (strcasecmp(argv[1], "threads2")==0) {
-    rv=testThreads2();
-  }
-  else if (strcasecmp(argv[1], "setBinDataDb")==0) {
-    rv=testSetBinDataDb(argc, argv);
-  }
-  else if (strcasecmp(argv[1], "env")==0) {
-    rv=testEnviron();
-  }
-  else {
-    fprintf(stderr, "Unknown command \"%s\"\n", argv[1]);
+  test=GWEN_Funcs_Find(tests, argv[1]);
+  if (test==NULL) {
+    fprintf(stderr, "Unknown test \"%s\"\n", argv[1]);
+    print_usage(argv[0]);
     GWEN_Fini();
     return 1;
   }
 
+  if (GWEN_Funcs_Has_Call(test))
+    rv=GWEN_Funcs_Call(test);
+  else
+    rv=GWEN_Funcs_Call_Args(test, argc, argv);
   GWEN_Fini();
   return rv;
 }
